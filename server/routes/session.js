@@ -10,14 +10,12 @@ var global = require('../global.js');
 var jwt = require('jsonwebtoken');	//https://npmjs.org/package/node-jsonwebtoken
 
 var UsersDAO = require('../users').UsersDAO;
-var SessionsDAO = require('../sessions').SessionsDAO;
 
 /* The SessionHandler must be constructed with a connected db */
-function SessionHandler (db, secret) {
+function SessionHandler (db) {
     "use strict";
 
     var users = new UsersDAO(db);
-    var sessions = new SessionsDAO(db);
 
     this.handleLoginRequest = function(req, res, next) {
         "use strict";
@@ -45,34 +43,15 @@ function SessionHandler (db, secret) {
                 return;
             }
 
-            sessions.startSession(user['_id'], function(err, session_id) {
-                "use strict";
-
-                if (err) {
-                	console.log('err', err);           
-                }
-                else
-                {
-                	res.cookie('session', session_id);
-                	var token = jwt.sign(user, global.configuration.auth.secret, { expiresInMinutes: 60*5 });
-                	res.json({ token: token });
-                }
-            	
-            });
+            var token = jwt.sign(user, global.configuration.auth.secret, { expiresInMinutes: 60*5 });
+        	res.json({ token: token });
+  
         });
     };
     
     this.handleLogout = function(req, res, next) {
         "use strict";
 
-        var session_id = req.cookies.session;
-        sessions.endSession(session_id, function (err) {
-            "use strict";
-
-            // Even if the user wasn't logged in, redirect to home
-            res.cookie('session', '');
-            return res.redirect('/');
-        });
     };
     
     function validateSignup(username, password, verify, email, errors) {
@@ -114,18 +93,18 @@ function SessionHandler (db, secret) {
         var password = req.body.password;
         var verify = req.body.verify;
 
-        console.log("user signing up: username: " + username + " pass: " + password);
+        var firstName = req.body.firstName;
+        var lastName = req.body.lastName;
         
         // set these up in case we have an error case
-        var errors = {'username': username, 'email': email};
+        var errors = {'username': username, 'email': email };
         
         if (!validateSignup(username, password, verify, email, errors)) {
-        	console.log("user did not validate: " + errors );
             res.send(401, errors); 
             return;
         }
 
-        users.addUser(username, password, email, function(err, user) {
+        users.addUser(username, password, email, firstName, lastName, function(err, user) {
             "use strict";
 
             if (err) {
@@ -140,6 +119,7 @@ function SessionHandler (db, secret) {
                 }       
                 return;
             }
+            
             res.send(200, 'Signup successful');
         });
     };

@@ -32,12 +32,13 @@ module.exports = exports = function(app, db) {
 //****************************************************************************
 	
 	var contentHandler = new ContentHandler(db);
-	var sessionHandler = new SessionHandler(db, secret); 
+	var sessionHandler = new SessionHandler(db); 
 
 	app.get('/greeting', contentHandler.greeting );
 
-	app.post('/register', sessionHandler.handleSignup ); 
-	app.post('/authenticate', sessionHandler.handleLoginRequest );
+	app.post('/signup', sessionHandler.handleSignup ); 
+	app.post('/login', sessionHandler.handleLoginRequest );
+	app.post('/logout', sessionHandler.handleLogout );
 	
 //****************************************************************************
 

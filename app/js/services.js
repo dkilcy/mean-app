@@ -11,7 +11,7 @@
 
 var app = angular.module('demoApp'); // retrieve existing module declared in app.js
 
-angular.module('demoApp.services', []).value('version', '0.4');
+angular.module('demoApp.services', []).value('version', '0.1');
 
 /**
  * This class performs basic authentication of a user
@@ -24,7 +24,7 @@ app.factory( "authService", ['$http','$q', '$window', function($http,$q,$window)
 	var login = function(credentials) {    
 
     	var deferred = $q.defer();
-    	$http.post('/authenticate', credentials).success(function(data) {	
+    	$http.post('/login', credentials).success(function(data) {	
     		deferred.resolve(data);
 			authenticated = true;
 			$window.sessionStorage.token = data.token;
@@ -37,7 +37,7 @@ app.factory( "authService", ['$http','$q', '$window', function($http,$q,$window)
 	var signup = function(user) {    
 		
     	var deferred = $q.defer();
-    	$http.post('/register', user).success(function(data) {    		
+    	$http.post('/signup', user).success(function(data) {    		
     		deferred.resolve(data);
     	}).error(function(reason) {
     		return deferred.reject(reason);        			
@@ -49,7 +49,14 @@ app.factory( "authService", ['$http','$q', '$window', function($http,$q,$window)
 
     	delete $window.sessionStorage.token;
     	authenticated = false;
-    
+    	
+		var deferred = $q.defer();
+    	$http.post('/logout').success(function(data) {    		
+    		deferred.resolve(data);
+    	}).error(function(reason) {
+    		return deferred.reject(reason);        			
+    	});
+    	return deferred.promise;    
     };
     
     return {   

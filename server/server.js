@@ -8,28 +8,20 @@
 
 console.log( 'info', "Start of application." );
 
-var express = require('express')
-  , app = express() // Web framework to handle routing requests
-  , MongoClient = require('mongodb').MongoClient // Driver for connecting to MongoDB
-  , routes = require('./routes') // Routes for our application
-  , global = require('./global.js');
+var global = require('./global.js');
 
-MongoClient.connect(global.configuration.mongodb.url, function(err, db) {
-	"use strict";
-	
-	if(err) throw err;
+var express = require('express');
+var app = express();
 
-	app.use(express.json());
-	app.use(express.urlencoded());
-	
-	app.use('/', express.static(global.configuration.webapp.rootDir));
+app.use(express.json());
+app.use(express.urlencoded());
+app.use('/', express.static(global.configuration.webapp.rootDir));
 
-	// Application routes
-	routes(app, db); 
+var db = require('mongode').connect(global.configuration.mongodb.url);
 
-	app.listen(8080, function() { 	
-		console.log('listening on http://localhost:8080');
-	});
-	
+var routes = require('./routes');
+routes(app,db); // Routes for our application
+
+app.listen(8080, function() { 	
+	console.log('listening on http://localhost:8080');
 });
-
