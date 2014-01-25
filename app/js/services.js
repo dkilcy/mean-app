@@ -73,7 +73,6 @@ app.factory('restService', [ '$http', '$q', function($http,$q) {
 	var greetings = function() {		
 		var deferred = $q.defer();
         $http.get('/greeting').success(function(data) {
-        	console.log('info',"data=" + data.id + " " + data.content);        
         	deferred.resolve(data);
         })
         .error(function(reason) {

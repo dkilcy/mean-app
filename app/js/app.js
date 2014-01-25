@@ -41,7 +41,7 @@ app.run( ['$rootScope', '$location', AUTH_SERVICE, function($rootScope, $locatio
     	
         var routesThatRequireAuth = ['/dashboard', '/widgets'];
         
-        console.log('log', 'authService.authenticated=' + AUTH_SERVICE.authenticated() );
+        //console.log('log', 'authService.authenticated=' + AUTH_SERVICE.authenticated() );
 
 	    if( contains(routesThatRequireAuth, $location.path()) && !AUTH_SERVICE.authenticated() ) {	    	
 	        $location.path('/login');	     

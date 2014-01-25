@@ -18,10 +18,10 @@
 	<div>
 		<select data-ng-model="category"	data-ng-options="category.name for category in categories"></select>
 		Currently selected: {{ category }}
-		
-		<li ng-repeat="category in categories">Name: <input ng-model="category.name"> [<a href	ng-click="categories.splice($index, 1)">X</a>]
+		<ul>
+		<li data-ng-repeat="category in categories">Name: <input data-ng-model="category.name"> [<a href data-ng-click="categories.splice($index, 1)">X</a>]
 		</li>
-		<li>[<a href ng-click="addCategory({})">add</a>] 
+		<li>[<a href data-ng-click="addCategory({})">add</a>] 
 		</li>
 		</ul>
 	</div>
@@ -30,12 +30,10 @@
 
 	<div>
 		<form name="testForm">
-			Value1: <input type="checkbox" ng-model="value1"><br />
-			Value2: <input type="checkbox" ng-model="value2"><br />
+			Value1: <input type="checkbox" data-ng-model="value1"><br />
+			Value2: <input type="checkbox" data-ng-model="value2"><br />
 			value1 = {{value1}}
-			</tt>
-			</br/> value2 = {{value2}}
-			</tt>
+			<br/> value2 = {{value2}}
 
 		</form>
 	</div>
