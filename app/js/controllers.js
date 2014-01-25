@@ -15,22 +15,17 @@ app.controller('authController', ['$scope', '$window', '$location', 'authService
 
 	$scope.login = function(credentials) { 
 
+		$scope.isDisabled = true; // disable the Login button
 		// login returns a promise
 		authService.login(credentials).then(function(data) {
-			
 			$scope.credentials = credentials;
 			$location.path('/dashboard');
-
-		}, function(reason) {
-			// promise rejected			
-			
-			if( reason.status == 401 ) {
-				$scope.error = reason.data;
-			} else {				 
-				console.log('error', reason);
-				$scope.error = reason;
-			}
-		});
+			//$scope.isDisabled = false; // enable the login button
+		}, function(reason) { // promise rejected				 
+			console.log('error', reason);
+			$scope.error = reason;
+			$scope.isDisabled = false; // enable the login button
+		});		
 	};
 	
 	$scope.logout = function () {		
@@ -44,16 +39,13 @@ app.controller('authController', ['$scope', '$window', '$location', 'authService
 	
 	$scope.signup = function(user) {
 
+		$scope.isDisabled = true; // disable the Login button
 		authService.signup(user).then(function(user) {
 			$location.path('/login');
-		}, function(reason) {
-			// promise rejected						
-			if( reason.status == 401 ) {
-				$scope.error = reason.data;
-			} else {				 
-				console.log('error', reason);
-				$scope.error = reason.data;
-			}
+		}, function(reason) { // promise rejected									 
+			console.log('error', reason);
+			$scope.error = reason;
+			$scope.isDisabled = false; // enable the login button
 		});
 	};
 	
@@ -76,24 +68,23 @@ app.controller('widgetController', ['$scope', 'widgetFactory', 'restService', fu
 	$scope.value1 = true;
 	$scope.value2 = false;
 
+	$scope.isDisabled = false;
+    $scope.disableClick = function() {
+        //alert("Clicked!");
+        $scope.isDisabled = true;
+        return false;
+    };
+    
 	init(); 
 	
 	function init() {
-		
 		restService.greetings().then( function(data) {
 			$scope.message = "REST completed";
 			$scope.greeting = data;			
-		}, function(reason) {
-			// promise rejected
-			if( reason.status == 401 ) {
-				console.log('reason.status=401', reason);
-				$scope.message = reason.data;
-			} else {				 
-				console.log('error', reason);
-				$scope.message = reason;
-			}
+		}, function(reason) { // promise rejected
+			console.log('error', reason);
+			$scope.message = reason;
 		});
-		
 		$scope.widgets = widgetFactory.getWidgets();
 	};
 	
@@ -102,13 +93,7 @@ app.controller('widgetController', ['$scope', 'widgetFactory', 'restService', fu
 	};
 	
 	$scope.deleteWidget = function(data) {
-		console.log('info', 'deleting ' + data.name );
-
-		//var index = $scope.widgets.indexOf(data);
-		//$scope.widgets.splice(index,1);
-		
 		widgetFactory.deleteWidget(data);
-		
 	};
 	
 	$scope.addCategory = function(data) {

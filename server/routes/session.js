@@ -18,53 +18,45 @@ function SessionHandler (db) {
     var users = new UsersDAO(db);
 
     this.handleLoginRequest = function(req, res, next) {
-        "use strict";
-
+    	
         var username = req.body.username;
         var password = req.body.password;
-
+        
         console.log("user submitted username: " + username + " pass: " + password + " res=" + res);
-
+        
         users.validateLogin(username, password, function(err, user) {
-            "use strict";
-
             if (err) {
                 if (err.no_such_user) {	
-                	res.send(401, 'Wrong user or password'); 
+                	res.send(401, err); 
                 }
                 else if (err.invalid_password) { 
-                	res.send(401, 'Wrong user or password'); 
+                	res.send(401, err); 
                 }
-                else {
-                	// Some other type of error
-                	console.log('err', err); 
+                else {                	
+                	console.log('err', err); // Some other type of error
                 	res.send(500, err);                	
                 }
-                return;
+            } 
+            else {
+            	var token = jwt.sign(user, global.configuration.auth.secret, { expiresInMinutes: 60*5 });
+            	res.json({ token: token });
             }
-
-            var token = jwt.sign(user, global.configuration.auth.secret, { expiresInMinutes: 60*5 });
-        	res.json({ token: token });
-  
         });
     };
     
-    this.handleLogout = function(req, res, next) {
-        "use strict";
-
-    };
+    this.handleLogout = function(req, res, next) { };
     
     function validateSignup(username, password, verify, email, errors) {
-        "use strict";
+
         var USER_RE = /^[a-zA-Z0-9_-]{3,20}$/;
         var PASS_RE = /^.{3,20}$/;
         var EMAIL_RE = /^[\S]+@[\S]+\.[\S]+$/;
-
+        
         errors['username_error'] = "";
         errors['password_error'] = "";
         errors['verify_error'] = "";
-        errors['email_error'] = "";
-       
+        errors['email_error'] = "";      
+        
         if (!USER_RE.test(username)) {
         	errors['username_error'] = "invalid username. try just letters and numbers";
             return false;
@@ -80,13 +72,12 @@ function SessionHandler (db) {
         if(!EMAIL_RE.test(email)) {
            	errors['email_error'] = "invalid email address";
             return false;
-        }
+        }      
         
         return true;
     }
 
     this.handleSignup = function(req, res, next) {
-        "use strict";
 
         var email = req.body.email;
         var username = req.body.username;
@@ -101,27 +92,27 @@ function SessionHandler (db) {
         
         if (!validateSignup(username, password, verify, email, errors)) {
             res.send(401, errors); 
-            return;
         }
-
-        users.addUser(username, password, email, firstName, lastName, function(err, user) {
-            "use strict";
-
-            if (err) {
-                // this was a duplicate
-                if (err.code == '11000') {
-                	res.send(401, "Username already in use. Please choose another");                      
-                }
-                // this was a different error
-                else {
-                	console.log('err', err); 
-                	res.send(401, err);                       
-                }       
-                return;
-            }
-            
-            res.send(200, 'Signup successful');
-        });
+        else {
+	        users.addUser(username, password, email, firstName, lastName, function(err, user) {
+	            if (err) {
+	            	
+	                // this was a duplicate
+	                if (err.code == '11000') {
+	                	console.log('info', err ); 
+	                	res.send(401, err);                      
+	                }
+	                // this was a different error
+	                else {
+	                	console.log('err', err); 
+	                	res.send(500, err);                       
+	                }       
+	            }
+	            else {	
+	            	res.send(200, 'Success');
+	            }
+	        });
+        }
     };
 }
 

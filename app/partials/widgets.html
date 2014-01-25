@@ -47,7 +47,7 @@
 		<ul>
 			<li>Name - Description</li>
 			<li data-ng-repeat="widget in widgets | filter:filter.name">{{	widget.name }} - {{ widget.description }} 
-				[<a href	confirmed-click="deleteWidget(widget)" 
+				[<a href data-confirmed-click="deleteWidget(widget)" data-ng-click="categories.splice($index, 1)"
 							data-ng-confirm-click="Are you sure???????">X</a>]</li>
 		</ul>
 		<br /> Widget Name:<br /> 			<input type="text" data-ng-model="newWidget.name" /> 
@@ -56,5 +56,9 @@
 		<button class="btn btn-primary" data-ng-click="addWidget(newWidget)">Add Widget</button>
 		<br />
 	</div>
+	
+	<hr/>
+	<button class="btn btn-primary" data-ng-click="disableClick()" data-ng-disabled="isDisabled" data-ng-model="isDisabled">Disable ng-click</button>
+	
 
 </div>

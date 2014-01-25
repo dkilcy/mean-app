@@ -5,53 +5,52 @@
 
 <div class="control-group">
     <form class="form-horizontal" data-ng-submit="signup(user)">
-
-
+    
         <div class="control-group">
             <label class="control-label" for="firstName">First Name</label>
             <div class="controls">
-                <input type="text" id="firstName" data-ng-model="user.firstName" placeholder="First Name" required="required">
+                <input type="text" id="firstName" data-ng-disabled="isDisabled" data-ng-model="user.firstName" placeholder="First Name" required="required">
             </div>
         </div>
 
         <div class="control-group">
             <label class="control-label" for="lastName">Last Name</label>
             <div class="controls">
-                <input type="text" id="lastName" data-ng-model="user.lastName" placeholder="Last Name" required="required">
+                <input type="text" id="lastName" data-ng-disabled="isDisabled" data-ng-model="user.lastName" placeholder="Last Name" required="required">
             </div>
         </div>
 
         <div class="control-group">
             <label class="control-label" for="userName">UserName</label>
             <div class="controls">
-                <input type="text" id="username" data-ng-model="user.username" placeholder="User Name" required="required" />
+                <input type="text" id="username" data-ng-disabled="isDisabled" data-ng-model="user.username" placeholder="User Name" required="required" />
             </div>
         </div>
 
         <div class="control-group">
             <label class="control-label" for="email">Email</label>
             <div class="controls">
-                <input type="text" id="email" data-ng-model="user.email" placeholder="me@example.com" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" required />
+                <input type="text" id="email" data-ng-disabled="isDisabled" data-ng-model="user.email" placeholder="me@example.com" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" required />
             </div>
         </div>
 
         <div class="control-group">
             <label class="control-label" for="password">Password</label>
             <div class="controls">
-                <input type="password" id="password" data-ng-model="user.password" placeholder="Password" required />
+                <input type="password" id="password" data-ng-disabled="isDisabled" data-ng-model="user.password" placeholder="Password" required />
             </div>
         </div>
 
 			<div class="control-group">
             <label class="control-label" for="verify">Verify Password</label>
             <div class="controls">
-                <input type="password" id="verify" data-ng-model="user.verify" placeholder="Verify" required />
+                <input type="password" id="verify" data-ng-disabled="isDisabled" data-ng-model="user.verify" placeholder="Verify" required />
             </div>
         </div>
         
         <div class="control-group">
             <div class="controls">
-                <button class="btn btn-primary" type="submit" >Sign Up</button>
+                <button class="btn btn-primary" data-ng-disabled="isDisabled" data-ng-model="isDisabled" type="submit" >Sign Up</button>
             </div>
         </div>
 

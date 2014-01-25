@@ -47,7 +47,6 @@ app.factory( "authService", ['$http','$q', '$window', function($http,$q,$window)
 	
 	var logout = function() {
 
-    	delete $window.sessionStorage.token;
     	authenticated = false;
     	
 		var deferred = $q.defer();
