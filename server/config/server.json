@@ -1,0 +1,11 @@
+{		
+		"auth" : 
+			{ "secret" :"this is the secret 01234567" },
+		
+		"mongodb" : 
+			{ "url" : "mongodb://localhost:27017/app" },
+		
+		"webapp" : 
+			{ "rootDir" : "/home/dkilcy/git/mean-app/app/" }
+
+}

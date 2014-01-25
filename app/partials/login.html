@@ -1,0 +1,35 @@
+<div id="error" class="alert-box alert" data-ng-show="error">
+    {{ error }}  
+</div>
+
+<div class="control-group">
+    <form class="form-horizontal" data-ng-submit="login(credentials)" >
+
+        <div class="control-group">
+            <label class="control-label" for="username">UserName</label>
+            <div class="controls">
+                <input type="text" id="username" data-ng-model="credentials.username" placeholder="username" required />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="password">Password</label>
+            <div class="controls">
+                <input type="password" id="password" data-ng-model="credentials.password" placeholder="password" required />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <button class="btn btn-primary" type="submit" >Login</button>
+            </div>
+        </div>
+
+    </form>
+
+    <div>
+       <h4>New user ? <a href="#/signup">Click here to register</a></h4>
+    </div>
+</div>
+
+

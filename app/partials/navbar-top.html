@@ -1,0 +1,31 @@
+<nav class="navbar-top">
+
+	<header class="global">
+        <div class="navbar" data-ng-controller="authController">
+            <div class="navbar-inner">        	        
+                <div class="container">
+                    <ul class="nav" data-ng-show="!authenticated()">      
+                    	<li><a href="#/home"><img src="/img/greenbar320x40.png" /></a></li>                     
+                     <li data-ng-class="{ active: isActive('/signup')}"><a href="#/signup" href="">Sign Up</a></li>
+                     <li data-ng-class="{ active: isActive('/login')}"><a href="#/login" href="">Login</a></li>        
+                     <li data-ng-class="{ active: isActive('/tour')}"><a href="#/tour" href="">Tour</a></li>
+                     <li data-ng-class="{ active: isActive('/about')}"><a href="#/about">About</a></li>                                                                                      	
+                    	<li data-ng-class="{ active: isActive('/help')}"><a href="#/help">Help</a></li>                    	
+                    </ul>
+                     
+                    
+                   <ul class="nav" data-ng-show="authenticated()" >
+                    <li><a href="#/dashboard"><img src="/img/lightblue320x40.png" /></a></li> 
+                    <li data-ng-class="{ active: isActive('/dashboard')}"><a href="#/dashboard">Dashboard</a></li>    
+                    <li data-ng-class="{ active: isActive('/widgets')}"><a href="#/widgets">Widgets</a></li>
+                    <li data-ng-class="{ active: isActive('/help')}"><a href="#/help">Help</a></li>   
+                    <li data-ng-class="{ active: isActive('/logout')}"><a data-ng-click="logout()" href="">Logout</a></li>
+                       
+                   </ul>
+                </div>               
+            </div>
+                      	
+        </div><!-- /.navbar -->
+    </header>
+        
+</nav>

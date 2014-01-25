@@ -1,0 +1,60 @@
+<div>
+
+	<div>
+		<p>The ID is {{greeting.id}} | The content is {{greeting.content}}
+			| {{ message }}</p>
+	</div>
+
+	<hr />
+
+	<div>
+		<ul>
+			<li><a href="#/widgets/view1">View 1</a></li>
+		</ul>
+	</div>
+
+	<hr />
+
+	<div>
+		<select data-ng-model="category"	data-ng-options="category.name for category in categories"></select>
+		Currently selected: {{ category }}
+		
+		<li ng-repeat="category in categories">Name: <input ng-model="category.name"> [<a href	ng-click="categories.splice($index, 1)">X</a>]
+		</li>
+		<li>[<a href ng-click="addCategory({})">add</a>] 
+		</li>
+		</ul>
+	</div>
+
+	<hr />
+
+	<div>
+		<form name="testForm">
+			Value1: <input type="checkbox" ng-model="value1"><br />
+			Value2: <input type="checkbox" ng-model="value2"><br />
+			value1 = {{value1}}
+			</tt>
+			</br/> value2 = {{value2}}
+			</tt>
+
+		</form>
+	</div>
+
+	<hr />
+
+	<div>
+		Widget: <br /> <input type="text" data-ng-model="filter.name" /> <br />
+		<ul>
+			<li>Name - Description</li>
+			<li data-ng-repeat="widget in widgets | filter:filter.name">{{	widget.name }} - {{ widget.description }} 
+				[<a href	confirmed-click="deleteWidget(widget)" 
+							data-ng-confirm-click="Are you sure???????">X</a>]</li>
+		</ul>
+		<br /> Widget Name:<br /> 			<input type="text" data-ng-model="newWidget.name" /> 
+		<br /> Widget Description:<br />	<input type="text" data-ng-model="newWidget.description" /> 
+		<br />		
+		<button class="btn btn-primary" data-ng-click="addWidget(newWidget)">Add Widget</button>
+		<br />
+	</div>
+
+</div>
