@@ -51,10 +51,16 @@ app.controller('authController', ['$scope', '$window', '$location', 'authService
 	
 }]);
 
-app.controller('dashboardController', ['$scope', 'restService', function($scope, restService) {
+app.controller('dashboardController', ['$scope', 'workflowFactory', 'restService', function($scope, workflowFactory, restService) {
 	
+	$scope.workflowModel = {};
 	
-
+	init(); 
+	
+	function init() {
+		$scope.workflowModel = workflowFactory.getWorkflowModel();
+	};
+	
 }]);
 
 app.controller('widgetController', ['$scope', 'widgetFactory', 'restService', function($scope, widgetFactory, restService) {
