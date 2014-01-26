@@ -20,13 +20,15 @@ angular.module('demoApp.services', []).value('version', '0.1');
 app.factory( "authService", ['$http','$q', '$window', function($http,$q,$window) {
 
 	var authenticated = false; 
+	var username = {};
 	
 	var login = function(credentials) {    
-
+		
     	var deferred = $q.defer();
     	$http.post('/login', credentials).success(function(data) {	
     		deferred.resolve(data);
 			authenticated = true;
+			username = credentials.username;
 			$window.sessionStorage.token = data.token;
     	}).error(function(reason) {
     		return deferred.reject(reason);        			
@@ -61,7 +63,8 @@ app.factory( "authService", ['$http','$q', '$window', function($http,$q,$window)
     return {   
     	signup: signup,
         login: login,         
-        logout: logout,        
+        logout: logout,   
+        username: function() { return username; },
         authenticated: function() {	return authenticated; }    	
     };
 }]);
@@ -98,9 +101,9 @@ app.factory('workflowFactory', [ function() {
 			"workflow": [
 			{ "_id":1, "from":"applicant", "to":"hiringManager" }, 
 			{ "_id":2, "from":"hiringManager", "to":"hrManager" }, 				
-			{ "_id":3, "from":"hrManager", "to":["itManager", "applicant"] },
+			{ "_id":3, "from":"hrManager", "to": "applicant" },			
 			{ "_id":4, "from":"applicant", "to":"hrManager" },
-			{ "_id":5, "from":"itManager", "to":"hrManager" } ]
+			{ "_id":5, "from":"hrManager", "to":"itManager" } ]
 		};
 	
 	var factory = {};

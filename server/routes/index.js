@@ -27,8 +27,8 @@ module.exports = exports = function(app, db) {
 	var secret = global.configuration.auth.secret;
 	
 	app.use('/api', expressJwt({secret: secret}));
-	//app.use('/dashboard', expressJwt({secret: secret}));
-
+	app.use('/dashboard', expressJwt({secret: secret}));
+	
 //****************************************************************************
 	
 	var contentHandler = new ContentHandler(db);

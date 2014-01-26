@@ -51,7 +51,27 @@ app.controller('authController', ['$scope', '$window', '$location', 'authService
 	
 }]);
 
-app.controller('dashboardController', ['$scope', 'workflowFactory', 'restService', function($scope, workflowFactory, restService) {
+
+app.controller('roleController', ['$scope', '$location', 'workflowFactory', 'authService', function($scope, $location, workflowFactory, authService) {
+	
+	var currentPath = $location.path();		
+	var currentRole = currentPath.split("/")[2];
+	var currentUsername = authService.username();
+	
+	$scope.currentPath = currentPath;
+	$scope.currentRole = currentRole; 
+	$scope.currentUsername = currentUsername;
+	
+	init(); 
+	
+	function init() {
+		
+	};
+	
+}]);
+
+
+app.controller('dashboardController', ['$scope', 'workflowFactory', 'authService', function($scope, workflowFactory, authService) {
 	
 	$scope.workflowModel = {};
 	

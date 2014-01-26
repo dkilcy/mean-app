@@ -31,12 +31,12 @@ app.config(['$routeProvider', function($routeProvider) {
 
 	for(var i = 0; i < workflowModel.role.length; i++) {
 		console.log('info', "adding rule:" + workflowModel.role[i]._id + " " + workflowModel.role[i].name );
-		$routeProvider.when("/dashboard/" + workflowModel.role[i]._id, { templateUrl: 'partials/role.html', controller:'dashboardController' });
+		$routeProvider.when("/dashboard/" + workflowModel.role[i]._id, { templateUrl: 'partials/role.html', controller:'roleController' });
 	}
 	
 	$routeProvider.when('/home',{ templateUrl: 'partials/home.html' });
 	$routeProvider.when('/signup', { templateUrl: 'partials/signup.html', controller: 'authController'});
-	$routeProvider.when('/login', { templateUrl: 'partials/login.html', controller: 'authController' });//, resolve: {data: function(Resource) { return Resource.get().$promise; }}
+	$routeProvider.when('/login', { templateUrl: 'partials/login.html', controller: 'authController' });
 	$routeProvider.when('/tour', { templateUrl: 'partials/tour.html'});
 	$routeProvider.when('/about', { templateUrl: 'partials/about.html' });
 	$routeProvider.when('/help', { templateUrl: 'partials/help.html'});
@@ -62,22 +62,21 @@ app.run( ['$rootScope', '$location', AUTH_SERVICE, function($rootScope, $locatio
     $rootScope.$on('$routeChangeStart', function(event, next, current) {
     	
         var routesThatRequireAuth = ['/dashboard', '/widgets'];
+        var route = $location.path();
         
-        //console.log('log', 'authService.authenticated=' + AUTH_SERVICE.authenticated() );
-
-	    if( contains(routesThatRequireAuth, $location.path()) && !AUTH_SERVICE.authenticated() ) {	    	
-	        $location.path('/login');	     
-	    }
+        var username = AUTH_SERVICE.username();
+        var authenticated = AUTH_SERVICE.authenticated();
+        
+        for( var i=0; i < routesThatRequireAuth.length; i++) {
+        	
+        	console.log('log', 'authenticated=' + authenticated + " route=" + route + ' for user=' + username + ' check=' + routesThatRequireAuth[i] );
+        	
+        	if( route.startsWith(routesThatRequireAuth[i])  && !authenticated ) {
+    	    	console.log('log', 'redirecting from ' + route + ' to /login for user=' + username );
+    	        $location.path('/login');	     
+    	    }
+        }
     });
     
 }]);
 
-function contains(a, obj) {
-    var i = a.length;
-    while (i--) {
-       if (a[i] === obj) {
-           return true;
-       }
-    }
-    return false;
-}
