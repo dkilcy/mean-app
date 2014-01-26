@@ -9,9 +9,9 @@
  * 
  ***********************************************************************************/
 
-var app = angular.module('demoApp'); // retrieve existing module declared in app.js
+var app = angular.module('meanApp'); // retrieve existing module declared in app.js
 
-angular.module('demoApp.services', []).value('version', '0.1');
+angular.module('meanApp.services', []).value('version', '0.1');
 
 /**
  * This class performs basic authentication of a user

@@ -1,13 +1,13 @@
 'use strict';
 
-var app = angular.module('demoApp', 
+var app = angular.module('meanApp', 
 	[
 	  'ngRoute',
 	  'ui.bootstrap',
-	  'demoApp.filters',
-	  'demoApp.services',
-	  'demoApp.directives',
-	  'demoApp.controllers'
+	  'meanApp.filters',
+	  'meanApp.services',
+	  'meanApp.directives',
+	  'meanApp.controllers'
 	]);
 
 /**********************************************************************************

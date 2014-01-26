@@ -5,9 +5,9 @@
  * @author dkilcy 
  ***********************************************************************************/
 
-var app = angular.module('demoApp'); // retrieve existing module declared in app.js
+var app = angular.module('meanApp'); // retrieve existing module declared in app.js
 
-angular.module('demoApp.controllers', []);
+angular.module('meanApp.controllers', []);
 
 app.controller('authController', ['$scope', '$window', '$location', 'authService', function ($scope, $window, $location, authService) {
 	

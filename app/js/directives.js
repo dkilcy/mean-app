@@ -7,9 +7,9 @@
  * 
  **********************************************************************************/
 
-var app = angular.module('demoApp'); // retrieve existing module declared in app.js
+var app = angular.module('meanApp'); // retrieve existing module declared in app.js
 
-angular.module('demoApp.directives', [])
+angular.module('meanApp.directives', [])
 .directive('appVersion', ['version', function(version) {
     return function(scope, elm, attrs) {
       elm.text(version);
