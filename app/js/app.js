@@ -3,6 +3,7 @@
 var app = angular.module('demoApp', 
 	[
 	  'ngRoute',
+	  'ui.bootstrap',
 	  'demoApp.filters',
 	  'demoApp.services',
 	  'demoApp.directives',
