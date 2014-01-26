@@ -47,14 +47,13 @@ app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/widgets',{ templateUrl: 'partials/widgets.html', controller: 'widgetController' });	
 	$routeProvider.when('/widgets/view1',{ templateUrl: 'partials/widgets/view1.html', controller: 'widgetController' });
 	
-	
-	
 	$routeProvider.otherwise({ redirectTo: '/home'});
+	
 }]);
 
 //******************************************************************************************
 
-var AUTH_SERVICE = "authService";
+var AUTH_SERVICE = "authService";  // can only pass constants into app.run()
 
 app.run( ['$rootScope', '$location', AUTH_SERVICE, function($rootScope, $location, AUTH_SERVICE) {
 
@@ -68,16 +67,14 @@ app.run( ['$rootScope', '$location', AUTH_SERVICE, function($rootScope, $locatio
         var username = AUTH_SERVICE.username();
         var authenticated = AUTH_SERVICE.authenticated();
         
-        for( var i=0; i < routesThatRequireAuth.length; i++) {
-        	
-        	console.log('log', 'authenticated=' + authenticated + " route=" + route + ' for user=' + username + ' check=' + routesThatRequireAuth[i] );
-        	
+        for( var i=0; i < routesThatRequireAuth.length; i++) {   	
+        	//console.log('log', 'authenticated=' + authenticated + " route=" + route + ' for user=' + username + ' check=' + routesThatRequireAuth[i] );
         	if( route.startsWith(routesThatRequireAuth[i])  && !authenticated ) {
-    	    	console.log('log', 'redirecting from ' + route + ' to /login for user=' + username );
+    	    	//console.log('log', 'redirecting from ' + route + ' to /login for user=' + username );
     	        $location.path('/login');	     
     	    }
         }
-    });
+    });    
     
 }]);
 
