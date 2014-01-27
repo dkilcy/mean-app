@@ -1,5 +1,6 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
-	<div class="navbar-header navbar-left" data-ng-controller="authController">
+	<div data-ng-controller="authController">
+	<div class="navbar-header navbar-left">
 		<ul class="nav navbar-nav" data-ng-show="!authenticated()">
 			<li><a href="#/home"><img src="/img/greenbar320x40.png" /></a></li>
 			<li data-ng-class="{ active: isActive('/signup')}"><a href="#/signup">Sign Up</a></li>
@@ -11,9 +12,17 @@
 		<ul class="nav navbar-nav" data-ng-show="authenticated()">
 			<li><a href="#/dashboard"><img src="/img/lightblue320x40.png" /></a></li>
 			<li data-ng-class="{ active: isActive('/dashboard')}"><a href="#/dashboard">Dashboard</a></li>
-			<li data-ng-class="{ active: isActive('/widgets')}"><a href="#/widgets">Widgets</a></li>
-			<li data-ng-class="{ active: isActive('/help')}"><a href="#/help">Help</a></li>
-			<li data-ng-class="{ active: isActive('/logout')}"><a	data-ng-click="logout()" href="">Logout</a></li>
+			<li data-ng-class="{ active: isActive('/widgets')}"><a href="#/widgets">Widgets</a></li>			
 		</ul>
+	</div>
+	<div class="navbar-header navbar-right" data-ng-show="authenticated()"> 		
+			 
+			<ul class="nav navbar-nav">			
+				<li> <h3>Hi, {{ authService.username() }}</h3></li>
+				<li data-ng-class="{ active: isActive('/help')}"><a href="#/help">Help</a></li>							
+				<li data-ng-class="{ active: isActive('/logout')}"><a	data-ng-click="logout()" href="">Logout</a></li>
+			</ul>
+	</div>
+		
 	</div>
 </nav>

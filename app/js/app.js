@@ -4,6 +4,7 @@ var app = angular.module('meanApp',
 	[
 	  'ngRoute',
 	  'ui.bootstrap',
+	  'ngGrid',
 	  'meanApp.filters',
 	  'meanApp.services',
 	  'meanApp.directives',
@@ -46,6 +47,7 @@ app.config(['$routeProvider', function($routeProvider) {
 	
 	$routeProvider.when('/widgets',{ templateUrl: 'partials/widgets.html', controller: 'widgetController' });	
 	$routeProvider.when('/widgets/view1',{ templateUrl: 'partials/widgets/view1.html', controller: 'widgetController' });
+	$routeProvider.when('/widgets/view2',{ templateUrl: 'partials/widgets/view2.html', controller: 'widgetController' });
 	
 	$routeProvider.otherwise({ redirectTo: '/home'});
 	

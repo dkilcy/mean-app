@@ -1,5 +1,6 @@
 /* app css stylesheet */
 
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 .done-true {
     text-decoration: line-through;
@@ -23,6 +24,26 @@ width:50%;
 /** http://stackoverflow.com/questions/11124777/twitter-bootstrap-navbar-fixed-top-overlapping-site */
 .body { padding-top: 80px;  padding-bottom: 80px}
 
-.top-buffer { margin-top:10px; }
+.mean-padding-10px { padding:10px 10px; }
 
-.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+.gridStyle800x150 {
+border: 1px solid rgb(212,212,212);
+width: 800px;
+height: 150px;
+}
+
+.gridStyle800x300 {
+border: 1px solid rgb(212,212,212);
+width: 800px;
+height: 300px;
+}
+
+.selectedItems{
+    float: bottom; 
+}
+
+.green {
+    background-color: green;
+    color: white;
+}
+

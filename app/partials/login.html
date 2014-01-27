@@ -6,21 +6,21 @@
   <div class="mean-center-50">
       <form class="form-horizontal" data-ng-submit="login(credentials)" >
 
-        <div class="control-group row top-buffer">
+        <div class="control-group row mean-padding-10px">
             <label class="control-label" for="username">UserName</label>
             <div class="controls">
                 <input type="text" id="username" data-ng-disabled="isDisabled" data-ng-model="credentials.username" placeholder="username" required />
             </div>
         </div>
 
-        <div class="control-group row top-buffer">
+        <div class="control-group row mean-padding-10px">
             <label class="control-label" for="password">Password</label>
             <div class="controls">
                 <input type="password" id="password" data-ng-disabled="isDisabled" data-ng-model="credentials.password" placeholder="password" required />
             </div>
         </div>
 
-        <div class="control-group row top-buffer">
+        <div class="control-group row mean-padding-10px">
             <div class="controls">
                 <button class="btn btn-primary" data-ng-disabled="isDisabled" data-ng-model="isDisabled" type="submit">Login</button>                
             </div>
@@ -28,7 +28,7 @@
 
     </form>
     
-    <div class="row top-buffer">
+    <div class="row mean-padding-10px">
   		 <h4>New user ? <a href="#/signup" data-ng-disabled="isDisabled" >Click here to register</a></h4>
    </div>
  </div>
