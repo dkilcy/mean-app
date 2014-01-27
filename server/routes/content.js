@@ -13,6 +13,9 @@ function ContentHandler (db) {
 		    id:1, content:'foo'
 		});
     };
+    
+
 }
+
 
 module.exports = ContentHandler;

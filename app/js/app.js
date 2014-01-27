@@ -14,27 +14,11 @@ var app = angular.module('meanApp',
 /**********************************************************************************
  * Module with config and route 	
  **********************************************************************************/
-app.config(['$routeProvider', function($routeProvider) {
+app.config( ['$provide', '$routeProvider', function($provide, $routeProvider) {
 	
-	var workflowModel = { "_id":"hr", "name":"HR Workflow Model", 
-			"role": [ 	
-						{ "_id":"hiringManager", 	"name":"Hiring Manager" },
-						{ "_id":"itManager", 		"name":"IT Manager" },
-						{ "_id":"hrManager", 		"name":"HR Manager" },
-						{ "_id":"applicant", 		"name":"Applicant" } ],
-							
-						"workflow": [
-						{ "_id":1, "from":"applicant", "to":"hiringManager" }, 
-						{ "_id":2, "from":"hiringManager", "to":"hrManager" }, 				
-						{ "_id":3, "from":"hrManager", "to":["itManager", "applicant"] },
-						{ "_id":4, "from":"applicant", "to":"hrManager" },
-						{ "_id":5, "from":"itManager", "to":"hrManager" } ]
-					};
-
-	for(var i = 0; i < workflowModel.role.length; i++) {
-		console.log('info', "adding rule:" + workflowModel.role[i]._id + " " + workflowModel.role[i].name );
-		$routeProvider.when("/dashboard/" + workflowModel.role[i]._id, { templateUrl: 'partials/role.html', controller:'roleController' });
-	}
+	$provide.factory('$routeProvider', function () {
+        return $routeProvider;
+    });
 	
 	$routeProvider.when('/home',{ templateUrl: 'partials/home.html' });
 	$routeProvider.when('/signup', { templateUrl: 'partials/signup.html', controller: 'authController'});
@@ -44,7 +28,7 @@ app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/help', { templateUrl: 'partials/help.html'});
 	
 	$routeProvider.when('/dashboard',{ templateUrl: 'partials/dashboard.html', controller: 'dashboardController' });
-	
+
 	$routeProvider.when('/widgets',{ templateUrl: 'partials/widgets.html', controller: 'widgetController' });	
 	$routeProvider.when('/widgets/view1',{ templateUrl: 'partials/widgets/view1.html', controller: 'widgetController' });
 	$routeProvider.when('/widgets/view2',{ templateUrl: 'partials/widgets/view2.html', controller: 'widgetController' });
@@ -56,8 +40,9 @@ app.config(['$routeProvider', function($routeProvider) {
 //******************************************************************************************
 
 var AUTH_SERVICE = "authService";  // can only pass constants into app.run()
+var WORKFLOW_FACTORY = "workflowFactory"; 
 
-app.run( ['$rootScope', '$location', AUTH_SERVICE, function($rootScope, $location, AUTH_SERVICE) {
+app.run( ['$rootScope', '$location', '$routeProvider', AUTH_SERVICE, WORKFLOW_FACTORY, function($rootScope, $location, $routeProvider, AUTH_SERVICE, WORKFLOW_FACTORY) {
 
     $rootScope.authService = AUTH_SERVICE;
 
@@ -77,6 +62,18 @@ app.run( ['$rootScope', '$location', AUTH_SERVICE, function($rootScope, $locatio
     	    }
         }
     });    
+    
+    var init = function() {
+    	var workflowModel = WORKFLOW_FACTORY.getWorkflowModel();
+
+    	for(var i = 0; i < workflowModel.role.length; i++) {
+    		console.log('info', "adding rule:" + workflowModel.role[i]._id + " " + workflowModel.role[i].name );
+    		$routeProvider.when("/dashboard/" + workflowModel.role[i]._id, { templateUrl: 'partials/role.html', controller:'roleController' });
+    	}
+    };
+    
+    init();
+    
     
 }]);
 

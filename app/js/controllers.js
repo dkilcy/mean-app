@@ -71,7 +71,7 @@ app.controller('roleController', ['$scope', '$location', 'workflowFactory', 'aut
 }]);
 
 
-app.controller('dashboardController', ['$scope', 'workflowFactory', 'authService', function($scope, workflowFactory, authService) {
+app.controller('dashboardController', ['$scope', 'workflowFactory', function($scope, workflowFactory) {
 	
 	$scope.workflowModel = {};
 	
@@ -103,7 +103,7 @@ app.controller('widgetController', ['$scope', 'widgetFactory', 'restService', fu
     $scope.disableClick = function() {
         //alert("Clicked!");
         $scope.isDisabled = true;
-        return false;
+        return false;workflowFactory
     };
 
     $scope.request = { name:"New Employee Software", username:"Art Vandelay" };

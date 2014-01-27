@@ -38,8 +38,8 @@ module.exports = exports = function(app, db) {
 
 	app.post('/signup', sessionHandler.handleSignup ); 
 	app.post('/login', sessionHandler.handleLoginRequest );
-	app.post('/logout', sessionHandler.handleLogout );
-	
+	app.post('/logout', sessionHandler.handleLogout );	
+
 //****************************************************************************
 
 	app.use(ErrorHandler);
