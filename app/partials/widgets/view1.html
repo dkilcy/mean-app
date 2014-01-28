@@ -1,21 +1,18 @@
 <div class="mean-center-90">
-<h3>View 1</h3>
-<br />
-Incoming Requests
-<div class="gridStyle800x150" data-ng-grid="incomingGrid"></div>
-<div class="selectedItems">{{incomingSelection}}</div>
-<br />
-Outgoing Requests:
-<div class="gridStyle800x150" data-ng-grid="outgoingGrid"></div>
-<!-- 
-<div class="selectedItems">{{outgoingSelection}}</div>
--->
-
-<hr/>
-
-<div>
-
-
-</div>
-
+	<h3>{{role.name}}</h3>
+	<br />
+	<div>
+		<h4><strong>Incoming Requests</strong></h4>
+		<div class="gridStyle800x150" data-ng-grid="incomingGrid">
+			<button class="btn btn-primary" data-ng-click="createOutgoingRequest()">Create Outgoing Request</button>
+			<button class="btn btn-primary" data-ng-click="cancelIncomingRequest()">Cancel Request</button>
+		</div>
+	</div> 
+	<br />
+	<div>
+		<h4><strong>Outgoing Requests</strong></h4>
+		<div class="gridStyle800x150" data-ng-grid="outgoingGrid">
+			<button class="btn btn-primary" data-ng-click="cancelOutgoingRequest()">Cancel Request</button>
+		</div>
+	</div>
 </div>

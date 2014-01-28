@@ -85,6 +85,8 @@ app.controller('dashboardController', ['$scope', 'workflowFactory', function($sc
 
 app.controller('widgetController', ['$scope', 'widgetFactory', 'restService', function($scope, widgetFactory, restService) {
 
+	$scope.role = { "_id":"hiringManager", "name":"Hiring Manager"};
+	
 	$scope.message = 'Empty Message';
 	$scope.categories = [ { '_id':'open', 'name':'Open'},
 	                      { '_id':'requested', 'name':'Requested'},
@@ -103,7 +105,7 @@ app.controller('widgetController', ['$scope', 'widgetFactory', 'restService', fu
     $scope.disableClick = function() {
         //alert("Clicked!");
         $scope.isDisabled = true;
-        return false;workflowFactory
+        return false;
     };
 
     $scope.request = { name:"New Employee Software", username:"Art Vandelay" };
@@ -145,38 +147,69 @@ app.controller('widgetController', ['$scope', 'widgetFactory', 'restService', fu
     	    multiSelect: true
     };
     
-    var datex = new Date();
-    
-    $scope.incomingData = [{date:datex , requestName: "New Request for 0123456789 0123456789", role:"applicant", status:"Open"},
-                     {date: datex, requestName: "New Request for 0123456789 0123456789", role:"hrManager", status:"Open"},
-                     {date: datex, requestName: "New Request for 0123456789 0123456789", role:"hiringManager", status:"Open" }];
-    
-    $scope.outgoingData = [{date: datex, requestName: "New Request for 0123456789 0123456789t", role:"hrManager", status:"Open"},
-                           {date: datex, requestName: "New Request for 0123456789 0123456789", role:"itManager", status:"Open"},
-                           {date: datex, requestName: "New Request for 0123456789 0123456789", role:"itManager", status:"Acknowledged"},
-                           {date: datex, requestName: "New Request for 0123456789 0123456789", role:"itManager", status:"Open"},
-                           {date: datex, requestName: "New Request for 0123456789 0123456789", role:"itManager", status:"Open"}];
-    
-    $scope.incomingSelection = [];
-    $scope.outgoingSelection = [];
+    //
     
     var columnDefs = [{field:'date', displayName:'Date/Time'}, 
 	    {field:'requestName', displayName:'Request'}, 
 	    {field:'role', displayName:'Role'},
+	    {field:'target', displayName:'Target'},
 	    {field:'status', displayName:'Status', cellTemplate: '/partials/cellTemplate.html' }];
 
+    //
+    
+    var datex = new Date();
+    
+    $scope.incomingData = [
+                     {date:datex, requestName: "New Request: Art Vandelay", role:"Applicant", target:'HR Manager', status:"Open"},
+                     {date:datex, requestName: "New Request: 012345678901", role:"Applicant", target:'HR Manager', status:"Open"}
+                     ];    
+    /**
+    {date: datex, requestName: "New Request for 0123456789 0123456789t", role:"hrManager", status:"Open"},
+    {date: datex, requestName: "New Request for 0123456789 0123456789", role:"hrManager", status:"Open"},
+    {date: datex, requestName: "New Request for 0123456789 0123456789", role:"hrManager", status:"Acknowledged"},
+    {date: datex, requestName: "New Request for 0123456789 0123456789", role:"hrManager", status:"Open"},
+    {date: datex, requestName: "New Request for 0123456789 0123456789", role:"hrManager", status:"Open"}
+    */    
+    $scope.incomingSelection = [];
+    
     $scope.incomingGrid = { 
     		data: 'incomingData',
     		columnDefs: columnDefs,
     		selectedItems: $scope.incomingSelection,
-    	    multiSelect: false
+    	    multiSelect: false,    	   
+    	    keepLastSelected : false,
+    	    enableColumnResize : true
     };
+    
+    $scope.createOutgoingRequest = function() {    	
+    	$scope.incomingSelection[0].status = 'Pending';
+    	$scope.outgoingData.push($scope.incomingSelection[0]);    	
+    	$scope.incomingData = _.without( $scope.incomingData, $scope.incomingSelection[0] );
+    };
+    
+    $scope.cancelIncomingRequest = function() {
+    	$scope.incomingData = _.without( $scope.incomingData, $scope.incomingSelection[0] );
+    };
+    
+    //
+    
+    $scope.outgoingData = [];    
+    $scope.outgoingSelection = [];
+    
     $scope.outgoingGrid = { 
     		data: 'outgoingData',
     		columnDefs: columnDefs,
-    		selectedItems: $scope.outgoinggSelection,
-    	    multiSelect: false
+    		selectedItems: $scope.outgoingSelection,
+    	    multiSelect: false,
+    	    keepLastSelected : false,
+    	    enableColumnResize : true
     };
+    
+    $scope.cancelOutgoingRequest = function() {
+    	$scope.outgoingData = _.without( $scope.outgoingData, $scope.outgoingSelection[0] );
+    };
+    
+    //
     
 	init(); 
 	

@@ -1,3 +1,6 @@
-<div ng-class="{green: row.getProperty(col.field) == 'Open'}">
+<div data-ng-class="{
+	green: row.getProperty(col.field) == 'Open', 
+	blue: row.getProperty(col.field) == 'Pending'}">
+  
   <div class="ngCellText">{{row.getProperty(col.field)}}</div>
 </div>

@@ -34,6 +34,13 @@ module.exports = exports = function(app, db) {
 	var contentHandler = new ContentHandler(db);
 	var sessionHandler = new SessionHandler(db); 
 
+	//===============================================================
+	app.get('/dashboard/hiringManager', contentHandler.hiringManager );
+	app.get('/dashboard/itManager', contentHandler.itManager );
+	app.get('/dashboard/hrManager', contentHandler.hrManager );
+	app.get('/dashboard/applicant', contentHandler.applicant );
+	//===============================================================
+	
 	app.get('/greeting', contentHandler.greeting );
 
 	app.post('/signup', sessionHandler.handleSignup ); 
