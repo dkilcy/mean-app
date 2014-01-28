@@ -180,15 +180,18 @@ app.controller('widgetController', ['$scope', 'widgetFactory', 'restService', fu
     	    keepLastSelected : false,
     	    enableColumnResize : true
     };
-    
+
     $scope.createOutgoingRequest = function() {    	
+    	$scope.incomingSelection[0].date = new Date();
     	$scope.incomingSelection[0].status = 'Pending';
     	$scope.outgoingData.push($scope.incomingSelection[0]);    	
     	$scope.incomingData = _.without( $scope.incomingData, $scope.incomingSelection[0] );
+    	$scope.incomingSelection.length = 0; 
     };
     
     $scope.cancelIncomingRequest = function() {
-    	$scope.incomingData = _.without( $scope.incomingData, $scope.incomingSelection[0] );
+    	$scope.incomingData = _.without( $scope.incomingData, $scope.incomingSelection[0] ); 
+    	$scope.incomingSelection.length = 0; 
     };
     
     //
@@ -206,7 +209,11 @@ app.controller('widgetController', ['$scope', 'widgetFactory', 'restService', fu
     };
     
     $scope.cancelOutgoingRequest = function() {
+    	$scope.outgoingSelection[0].date = new Date();
+    	$scope.outgoingSelection[0].status = "Recalled";
     	$scope.outgoingData = _.without( $scope.outgoingData, $scope.outgoingSelection[0] );
+    	$scope.incomingData.push( $scope.outgoingSelection[0] );    	
+    	$scope.outgoingSelection.length = 0; 
     };
     
     //
