@@ -1,28 +1,26 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div data-ng-controller="authController">
-	<div class="navbar-header navbar-left">
-		<ul class="nav navbar-nav" data-ng-show="!authenticated()">
-			<li><a href="#/home"><img src="/img/greenbar320x40.png" /></a></li>
-			<li data-ng-class="{ active: isActive('/signup')}"><a href="#/signup">Sign Up</a></li>
-			<li data-ng-class="{ active: isActive('/login')}"><a href="#/login">Login</a></li>
-			<li data-ng-class="{ active: isActive('/tour')}"><a href="#/tour">Tour</a></li>
-			<li data-ng-class="{ active: isActive('/about')}"><a href="#/about">About</a></li>
-			<li data-ng-class="{ active: isActive('/help')}"><a href="#/help">Help</a></li>
-		</ul>
-		<ul class="nav navbar-nav" data-ng-show="authenticated()">
-			<li><a href="#/dashboard"><img src="/img/lightblue320x40.png" /></a></li>
-			<li data-ng-class="{ active: isActive('/dashboard')}"><a href="#/dashboard">Dashboard</a></li>
-			<li data-ng-class="{ active: isActive('/widgets')}"><a href="#/widgets">Widgets</a></li>			
-		</ul>
-	</div>
-	<div class="navbar-header navbar-right" data-ng-show="authenticated()"> 		
-			 
-			<ul class="nav navbar-nav">			
-				<li> <h3>Hi, {{ authService.username() }}</h3></li>
-				<li data-ng-class="{ active: isActive('/help')}"><a href="#/help">Help</a></li>							
-				<li data-ng-class="{ active: isActive('/logout')}"><a	data-ng-click="logout()" href="">Logout</a></li>
+		<div class="navbar-header navbar-left">
+			<ul class="nav navbar-nav" data-ng-show="!authenticated()">
+				<li><a href="#/home"><img src="/img/greenbar320x40.png" /></a></li>
+				<li data-ng-class="{ active: isActive('/signup')}"><a href="#/signup">Sign Up</a></li>
+				<li data-ng-class="{ active: isActive('/login')}"><a href="#/login">Login</a></li>
+				<li data-ng-class="{ active: isActive('/tour')}"><a href="#/tour">Tour</a></li>
+				<li data-ng-class="{ active: isActive('/about')}"><a href="#/about">About</a></li>
+				<li data-ng-class="{ active: isActive('/help')}"><a href="#/help">Help</a></li>
 			</ul>
-	</div>
-		
+			<ul class="nav navbar-nav" data-ng-show="authenticated()">
+				<li><a href="#/dashboard"><img src="/img/lightblue320x40.png" /></a></li>
+				<li data-ng-class="{ active: isActive('/dashboard')}"><a href="#/dashboard">Dashboard</a></li>
+				<li data-ng-class="{ active: isActive('/widgets')}"><a href="#/widgets">Widgets</a></li>			
+			</ul>
+		</div>
+		<div class="navbar-header navbar-right" data-ng-show="authenticated()">				 
+				<ul class="nav navbar-nav">			
+					<li data-ng-class="{ active: isActive('/account')}"><a href="#/account">Hi, {{ authService.username() }}</a>></li>
+					<li data-ng-class="{ active: isActive('/help')}"><a href="#/help">Help</a></li>							
+					<li data-ng-class="{ active: isActive('/logout')}"><a	data-ng-click="logout()" href="">Logout</a></li>
+				</ul>
+		</div>		
 	</div>
 </nav>

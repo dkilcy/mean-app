@@ -27,6 +27,8 @@ app.config( ['$provide', '$routeProvider', function($provide, $routeProvider) {
 	$routeProvider.when('/about', { templateUrl: 'partials/about.html' });
 	$routeProvider.when('/help', { templateUrl: 'partials/help.html'});
 	
+	$routeProvider.when('/account', { templateUrl: 'partials/account.html'});
+	
 	$routeProvider.when('/dashboard',{ templateUrl: 'partials/dashboard.html', controller: 'dashboardController' });
 
 	$routeProvider.when('/widgets',{ templateUrl: 'partials/widgets.html', controller: 'widgetController' });	
@@ -48,7 +50,7 @@ app.run( ['$rootScope', '$location', '$routeProvider', AUTH_SERVICE, WORKFLOW_FA
 
     $rootScope.$on('$routeChangeStart', function(event, next, current) {
     	
-        var routesThatRequireAuth = ['/dashboard', '/widgets'];
+        var routesThatRequireAuth = ['/dashboard', '/widgets', '/account'];
         var route = $location.path();
         
         var username = AUTH_SERVICE.username();

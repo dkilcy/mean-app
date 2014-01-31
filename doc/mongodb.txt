@@ -1,0 +1,16 @@
+use app
+db.users.drop()
+db.widgets.drop()
+db.workflow.drop()
+
+mongoimport --jsonArray --db app -c users < users.json
+mongoimport --jsonArray --db app -c widgets < widgets.json
+mongoimport --jsonArray --db app -c workflow < workflow.json
+
+db.users.update({ _id:"dkilcy"}, { $set: {"roles": [{"role":"hiringManager" },{"role":"itManager"},{"role":"hrManager"},{"role":"applicant"}]} });
+db.users.update({ _id:"hiring1"}, { $set: {"roles": [{"role":"hiringManager"}]} });
+db.users.update({ _id:"it1"}, { $set: {"roles": [{ "role":"itManager" }]} });
+db.users.update({ _id:"hr1"}, { $set: {"roles": [{ "role":"hrManager" }]} });
+db.users.update({ _id:"app1"}, { $set: {"roles": [{ "role":"applicant" }]} });
+	
+	

@@ -75,7 +75,7 @@ app.factory('restService', [ '$http', '$q', function($http,$q) {
 	
 	var greetings = function() {		
 		var deferred = $q.defer();
-        $http.get('/greeting').success(function(data) {
+        $http.get('/api/greeting').success(function(data) {
         	deferred.resolve(data);
         })
         .error(function(reason) {
@@ -120,29 +120,50 @@ app.factory('workflowFactory', [ function() {
 	
 }]);
 
+app.factory('widgetService', [ '$http', '$q', function($http,$q) {
+	
+	var getWidgets = function() {
+		var deferred = $q.defer();
+    	$http.get('/api/widgets').success(function(data) {    		
+    		deferred.resolve(data);
+
+    	}).error(function(reason) {
+    		return deferred.reject(reason);        			
+    	});
+    	return deferred.promise;
+ 
+	};
+	var addWidget = function(widget) {
+		var deferred = $q.defer();
+    	$http.post('/api/widgets', widget).success(function(data) {    		
+    		deferred.resolve(data);
+    	}).error(function(reason) {
+    		return deferred.reject(reason);        			
+    	});
+    	return deferred.promise;
+	};
+	
+	var deleteWidget = function(widget) {
+		var deferred = $q.defer();
+    	$http.delete('/api/widgets?id=' + widget.name).success(function(data) {    		
+    		deferred.resolve(data);
+    	}).error(function(reason) {
+    		return deferred.reject(reason);        			
+    	});
+    	return deferred.promise;
+	};
+	
+	return {
+		addWidget : addWidget,
+		deleteWidget : deleteWidget,
+		getWidgets : getWidgets
+	};
+	
+}]);
+
 /**********************************************************************************
  * Simple factories for demo and experimentation
  * http://www.youtube.com/watch?v=i9MHigUZKEM
  **********************************************************************************/
 
-app.factory('widgetFactory', [ function() {
-	var widgets = [ { id:1, name:"Alpha", description:"Test1 Widget" }, 
-			 	      { id:2, name:"Bravo", description:"Test2 Widget" },
-				      { id:3, name:"Charlie", description:"Test3 Widget" }
-				    ]; 
-	
-	var factory = {};
-	factory.getWidgets = function() {
-		 // AJAX call 
-		return widgets;
-	};
-	factory.addWidget = function( widget ) { 
-		widgets.push(widget);
-	};
-	factory.deleteWidget = function( widget ) {
-		widgets.splice(widgets.indexOf(widget),1);   
-	};
-	
-	return factory;
 
-}]);

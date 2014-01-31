@@ -11,7 +11,7 @@ angular.module('meanApp.controllers', []);
 
 app.controller('authController', ['$scope', '$window', '$location', 'authService', function ($scope, $window, $location, authService) {
 	
-	$scope.credentials = {username: 'user', password: 'password'};
+	$scope.credentials = {username: 'dkilcy', password: 'password'};
 
 	$scope.login = function(credentials) { 
 
@@ -51,26 +51,6 @@ app.controller('authController', ['$scope', '$window', '$location', 'authService
 	
 }]);
 
-
-app.controller('roleController', ['$scope', '$location', 'workflowFactory', 'authService', function($scope, $location, workflowFactory, authService) {
-	
-	var currentPath = $location.path();		
-	var currentRole = currentPath.split("/")[2];
-	var currentUsername = authService.username();
-	
-	$scope.currentPath = currentPath;
-	$scope.currentRole = currentRole; 
-	$scope.currentUsername = currentUsername;
-	
-	init(); 
-	
-	function init() {
-		
-	};
-	
-}]);
-
-
 app.controller('dashboardController', ['$scope', 'workflowFactory', function($scope, workflowFactory) {
 	
 	$scope.workflowModel = {};
@@ -83,20 +63,45 @@ app.controller('dashboardController', ['$scope', 'workflowFactory', function($sc
 	
 }]);
 
-app.controller('widgetController', ['$scope', 'widgetFactory', 'restService', function($scope, widgetFactory, restService) {
+app.controller('roleController', ['$scope', '$location', 'workflowFactory', 'authService', function($scope, $location, workflowFactory, authService) {
+	
+	var currentPath = $location.path();		
+	var currentRole = currentPath.split("/")[2];
+	var currentUsername = authService.username();
+	
+	$scope.currentPath = currentPath;
+	$scope.currentRole = currentRole; 
+	$scope.currentUsername = currentUsername;
+	
+	$scope.incomingData = {};
+		
+	init(); 
+		
+	function init() {
+		
+	};
+	
+}]);
+
+app.controller('widgetController', ['$scope', 'widgetService', 'restService', function($scope, widgetService, restService) {
 
 	$scope.role = { "_id":"hiringManager", "name":"Hiring Manager"};
 	
 	$scope.message = 'Empty Message';
 	$scope.categories = [ { '_id':'open', 'name':'Open'},
 	                      { '_id':'requested', 'name':'Requested'},
+	                      { '_id':'recalled', 'name':'Recalled' },
 	                      { '_id':'pending', 'name':'Pending'},
 	                      { '_id':'approved', 'name':'Approved' },	                      
 	                      { '_id':'denied', 'name':'Denied' },	                      
 	                      { '_id':'cancelled', 'name':'Cancelled' } ] ;
 	
 	$scope.category = $scope.categories[0];
-	$scope.widgets = {};
+
+	$scope.addCategory = function(data) {
+		$scope.categories.push(data);
+	};
+	
 	
 	$scope.value1 = true;
 	$scope.value2 = false;
@@ -149,19 +154,21 @@ app.controller('widgetController', ['$scope', 'widgetFactory', 'restService', fu
     
     //
     
-    var columnDefs = [{field:'date', displayName:'Date/Time'}, 
-	    {field:'requestName', displayName:'Request'}, 
-	    {field:'role', displayName:'Role'},
-	    {field:'target', displayName:'Target'},
-	    {field:'status', displayName:'Status', cellTemplate: '/partials/cellTemplate.html' }];
+    var columnDefs = [	{field:'status', 		displayName:'Status', 			width:100,	cellTemplate: '/partials/cellTemplate.html' },
+                      	{field:'creationTime', 	displayName:'Creation Time', 	width:200},
+                      	{field:'updateTime', 	displayName:'Last Update', 		width:200},              
+					    {field:'requestName', 	displayName:'Request', 			width:400}, 
+					    {field:'role', 			displayName:'Role', 			width:100},
+					    {field:'target', 		displayName:'Target',			width:100}
+				    ];
 
     //
     
     var datex = new Date();
     
     $scope.incomingData = [
-                     {date:datex, requestName: "New Request: Art Vandelay", role:"Applicant", target:'HR Manager', status:"Open"},
-                     {date:datex, requestName: "New Request: 012345678901", role:"Applicant", target:'HR Manager', status:"Open"}
+                     {creationTime:datex, updateTime:'', requestName: "New Request: Art Vandelay", role:"Applicant", target:'HR Manager', status:"Open"},
+                     {creationTime:datex, updateTime:'', requestName: "New Request: 012345678901", role:"Applicant", target:'HR Manager', status:"Open"}
                      ];    
     /**
     {date: datex, requestName: "New Request for 0123456789 0123456789t", role:"hrManager", status:"Open"},
@@ -182,18 +189,23 @@ app.controller('widgetController', ['$scope', 'widgetFactory', 'restService', fu
     };
 
     $scope.createOutgoingRequest = function() {    	
-    	$scope.incomingSelection[0].date = new Date();
-    	$scope.incomingSelection[0].status = 'Pending';
-    	$scope.outgoingData.push($scope.incomingSelection[0]);    	
-    	$scope.incomingData = _.without( $scope.incomingData, $scope.incomingSelection[0] );
-    	$scope.incomingSelection.length = 0; 
+    	if( $scope.incomingSelection.length > 0 ) {
+	    	$scope.incomingSelection[0].updateTime = new Date();
+	    	$scope.incomingSelection[0].status = 'Pending';
+	    	$scope.outgoingData.push($scope.incomingSelection[0]);    	
+	    	$scope.incomingData = _.without( $scope.incomingData, $scope.incomingSelection[0] );
+	    	$scope.incomingSelection.length = 0; 
+    	}
     };
     
     $scope.cancelIncomingRequest = function() {
-    	$scope.incomingData = _.without( $scope.incomingData, $scope.incomingSelection[0] ); 
-    	$scope.incomingSelection.length = 0; 
+    	if( $scope.incomingSelection.length > 0 ) {
+    		$scope.incomingData = _.without( $scope.incomingData, $scope.incomingSelection[0] ); 
+    		$scope.incomingSelection.length = 0;
+    	}
     };
-    
+    //listening on http://localhost:8080
+
     //
     
     $scope.outgoingData = [];    
@@ -209,18 +221,31 @@ app.controller('widgetController', ['$scope', 'widgetFactory', 'restService', fu
     };
     
     $scope.cancelOutgoingRequest = function() {
-    	$scope.outgoingSelection[0].date = new Date();
-    	$scope.outgoingSelection[0].status = "Recalled";
-    	$scope.outgoingData = _.without( $scope.outgoingData, $scope.outgoingSelection[0] );
-    	$scope.incomingData.push( $scope.outgoingSelection[0] );    	
-    	$scope.outgoingSelection.length = 0; 
+    	if( $scope.outgoingSelection.length > 0 ) {
+	    	$scope.outgoingSelection[0].updateTime = new Date();
+	    	$scope.outgoingSelection[0].status = "Recalled";
+	    	$scope.outgoingData = _.without( $scope.outgoingData, $scope.outgoingSelection[0] );
+	    	$scope.incomingData.push( $scope.outgoingSelection[0] );    	
+	    	$scope.outgoingSelection.length = 0; 
+    	}
     };
     
     //
     
+	$scope.widgets = {};	
+        
 	init(); 
 	
 	function init() {
+
+		var socket = io.connect();
+		
+		socket.on('testEvent', function (data) {
+	    	console.log('testEvent: ' + data.hello );
+	    });
+		
+		//
+		
 		restService.greetings().then( function(data) {
 			$scope.message = "REST completed";
 			$scope.greeting = data;			
@@ -228,21 +253,43 @@ app.controller('widgetController', ['$scope', 'widgetFactory', 'restService', fu
 			console.log('error', reason);
 			$scope.message = reason;
 		});
-		$scope.widgets = widgetFactory.getWidgets();
+		
+		//
+
+		widgetService.getWidgets().then( function(data) {	
+			$scope.widgets = data;			
+		}, function(reason) { // promise rejected
+			console.log('error', reason);
+			$scope.message = reason;
+		});				
 	};
 	
 	$scope.addWidget = function(data) {
-		widgetFactory.addWidget(data);
+		widgetService.addWidget(data).then( function(result) {	
+			$scope.widgets.push(result); 
+		}, function(reason) { // promise rejected
+			console.log('error', reason);
+			$scope.message = reason;
+		});
 	};
 	
-	$scope.deleteWidget = function(data) {
-		widgetFactory.deleteWidget(data);
+	$scope.deleteWidget = function(index) {
+		
+		var data = $scope.widgets[index]; 
+		
+		console.log("index=" + index + " data.name=" + data.name ); 
+		
+		widgetService.deleteWidget(data).then( function(result) {	
+			$scope.widgets = _.without( $scope.widgets, data ); 
+		}, function(reason) { // promise rejected
+			console.log('error', reason);
+			$scope.message = reason;
+		});
 	};
 	
-	$scope.addCategory = function(data) {
-		$scope.categories.push(data);
-	};
+	//
 	
+
 	
 }]);
 
