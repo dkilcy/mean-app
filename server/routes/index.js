@@ -48,6 +48,8 @@ module.exports = exports = function(app, db, io) {
 	app.post('/api/widgets', contentHandler.postWidget );
 	app.delete( '/api/widgets', contentHandler.deleteWidget )
 	
+	app.get('/api/workflow', contentHandler.getWorkflow ); 
+	
 	app.post('/signup', sessionHandler.handleSignup ); 
 	app.post('/login', sessionHandler.handleLoginRequest );
 	app.post('/logout', sessionHandler.handleLogout );	

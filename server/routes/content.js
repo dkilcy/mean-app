@@ -34,16 +34,25 @@ function ContentHandler (db, io) {
 	
 	//===============================================================
 	
-	
+	this.getWorkflow = function(req, res, next) {
+
+		var id = req.query.id;    	
+    	console.log("getWorkflow: req.query.id=" + id );
+    	
+		workflow.getWorkflow(id, function(err, data) { 
+			console.dir(data);
+			return res.json( data ); 
+		});
+	};
 	
 	//===============================================================
 	
     this.greeting = function(req, res, next) {
-		res.json({ id:1, content:'foo' });
-		
-		io.sockets.emit('testEvent', { hello:'world' } );
-		
+		res.json({ id:1, content:'foo' });		
+		io.sockets.emit('testEvent', { hello:'world' } );		
     };
+    
+    //===============================================================
     
     this.getWidgets = function(req, res, next) {
     	widgets.getWidgets( function(err, data) {
@@ -52,24 +61,18 @@ function ContentHandler (db, io) {
     	});    	
     };
     
-    this.postWidget = function(req, res, next) {
-    	
-    	var widget = req.body; 
-    	
-    	console.log("user submitted widget for post: " + widget.name ); 
-    	
+    this.postWidget = function(req, res, next) {    	
+    	var widget = req.body;     	
+    	console.log("user submitted widget for post: " + widget.name );     	
     	widgets.addWidget( widget, function(err, data ) {
     		return res.json( data ); 
     	});
     };
     
-    this.deleteWidget = function(req, res, next) {
-    	
-    	var id = req.query.id;
-    	
+    this.deleteWidget = function(req, res, next) {    	
+    	var id = req.query.id;    	
     	console.log("deleteWidget: req.query.id=" + id ); 
-    	//console.dir(req);
-    	
+    	//console.dir(req);    	
     	widgets.deleteWidget( id, function(err, data ) {
     		return res.json( data ); 
     	});    	

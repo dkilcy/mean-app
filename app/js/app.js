@@ -54,7 +54,7 @@ app.run( ['$rootScope', '$location', '$routeProvider', AUTH_SERVICE, WORKFLOW_FA
         var route = $location.path();
         
         var username = AUTH_SERVICE.username();
-        var authenticated = AUTH_SERVICE.authenticated();
+        var authenticated = AUTH_SERVICE.isAuthenticated();
         
         for( var i=0; i < routesThatRequireAuth.length; i++) {   	
         	//console.log('log', 'authenticated=' + authenticated + " route=" + route + ' for user=' + username + ' check=' + routesThatRequireAuth[i] );

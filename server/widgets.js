@@ -37,8 +37,7 @@ function WidgetsDAO(db) {
     		if (err) return callback(err, null);
     		console.log("Deleted widget: name=" + id ); 
     		callback( null, id ); 
-    	});
-    	
+    	});    	
     };
 }
 

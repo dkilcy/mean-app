@@ -34,7 +34,7 @@ app.controller('authController', ['$scope', '$window', '$location', 'authService
 	};
 		
 	$scope.authenticated = function() {		
-		return authService.authenticated();
+		return authService.isAuthenticated();
 	};
 	
 	$scope.signup = function(user) {
@@ -51,19 +51,26 @@ app.controller('authController', ['$scope', '$window', '$location', 'authService
 	
 }]);
 
-app.controller('dashboardController', ['$scope', 'workflowFactory', function($scope, workflowFactory) {
+app.controller('dashboardController', ['$scope', 'workflowService', function($scope, workflowService) {
 	
 	$scope.workflowModel = {};
-	
+
 	init(); 
-	
+		
 	function init() {
-		$scope.workflowModel = workflowFactory.getWorkflowModel();
+
+		 workflowService.getWorkflow( 'hrWorkflow' ).then( function(data) {	
+			$scope.workflowModel = data;			
+		}, function(reason) { // promise rejected
+			console.log('error', reason);
+			$scope.message = reason;
+		});	
+		
 	};
 	
 }]);
 
-app.controller('roleController', ['$scope', '$location', 'workflowFactory', 'authService', function($scope, $location, workflowFactory, authService) {
+app.controller('roleController', ['$scope', '$location', 'workflowService', 'authService', function($scope, $location, workflowService, authService) {
 	
 	var currentPath = $location.path();		
 	var currentRole = currentPath.split("/")[2];
@@ -75,9 +82,18 @@ app.controller('roleController', ['$scope', '$location', 'workflowFactory', 'aut
 	
 	$scope.incomingData = {};
 		
+	$scope.workflowModel = {};
+			
 	init(); 
 		
 	function init() {
+
+		 workflowService.getWorkflow( 'hrWorkflow' ).then( function(data) {	
+			$scope.workflowModel = data;			
+		}, function(reason) { // promise rejected
+			console.log('error', reason);
+			$scope.message = reason;
+		});	
 		
 	};
 	
@@ -273,12 +289,9 @@ app.controller('widgetController', ['$scope', 'widgetService', 'restService', fu
 		});
 	};
 	
-	$scope.deleteWidget = function(index) {
-		
-		var data = $scope.widgets[index]; 
-		
-		console.log("index=" + index + " data.name=" + data.name ); 
-		
+	$scope.deleteWidget = function(index) {	
+		var data = $scope.widgets[index]; 		
+		console.log("index=" + index + " data.name=" + data.name ); 		
 		widgetService.deleteWidget(data).then( function(result) {	
 			$scope.widgets = _.without( $scope.widgets, data ); 
 		}, function(reason) { // promise rejected
@@ -286,10 +299,6 @@ app.controller('widgetController', ['$scope', 'widgetService', 'restService', fu
 			$scope.message = reason;
 		});
 	};
-	
-	//
-	
-
 	
 }]);
 

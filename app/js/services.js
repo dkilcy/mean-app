@@ -17,12 +17,12 @@ angular.module('meanApp.services', []).value('version', '0.1');
  * This class performs basic authentication of a user
  * 
  */
-app.factory( "authService", ['$http','$q', '$window', function($http,$q,$window) {
+app.service( "authService", ['$http','$q', '$window', function($http,$q,$window) {
 
 	var authenticated = false; 
 	var username = {};
 	
-	var login = function(credentials) {    
+	this.login = function(credentials) {    
 		
     	var deferred = $q.defer();
     	$http.post('/login', credentials).success(function(data) {	
@@ -35,8 +35,8 @@ app.factory( "authService", ['$http','$q', '$window', function($http,$q,$window)
     	});
     	return deferred.promise;
 	};
-	
-	var signup = function(user) {    
+
+	this.signup = function(user) {    
 		
     	var deferred = $q.defer();
     	$http.post('/signup', user).success(function(data) {    		
@@ -47,10 +47,14 @@ app.factory( "authService", ['$http','$q', '$window', function($http,$q,$window)
     	return deferred.promise;
 	};
 	
-	var logout = function() {
+	this.logout = function() {
 
     	authenticated = false;
-    	
+    	return {
+    		addWidget : addWidget,
+    		deleteWidget : deleteWidget,
+    		getWidgets : getWidgets
+    	};
 		var deferred = $q.defer();
     	$http.post('/logout').success(function(data) {    		
     		deferred.resolve(data);
@@ -60,20 +64,23 @@ app.factory( "authService", ['$http','$q', '$window', function($http,$q,$window)
     	return deferred.promise;    
     };
     
-    return {   
-    	signup: signup,
-        login: login,         
-        logout: logout,   
-        username: function() { return username; },
-        authenticated: function() {	return authenticated; }    	
+    this.username = function() {
+    	return username;
     };
+    
+    this.isAuthenticated = function() {
+    	return authenticated; 
+    };
+
 }]);
 
-/***********************************************************************************/
-
-app.factory('restService', [ '$http', '$q', function($http,$q) {
+/***********************************************************************************
+ * 
+ * 
+ */
+app.service('restService', [ '$http', '$q', function($http,$q) {
 	
-	var greetings = function() {		
+	this.greetings = function() {		
 		var deferred = $q.defer();
         $http.get('/api/greeting').success(function(data) {
         	deferred.resolve(data);
@@ -83,12 +90,12 @@ app.factory('restService', [ '$http', '$q', function($http,$q) {
 		});
         return deferred.promise;
 	};
-	
-	return {
-		greetings: greetings		
-	};
+;
 }]);
 
+/**
+ * 
+ */
 app.factory('workflowFactory', [ function() {
 	
 	var workflowModel = {};	
@@ -120,20 +127,39 @@ app.factory('workflowFactory', [ function() {
 	
 }]);
 
-app.factory('widgetService', [ '$http', '$q', function($http,$q) {
+/**
+ * 
+ */
+app.service('workflowService', [ '$http', '$q', function($http,$q) {
 	
-	var getWidgets = function() {
+	this.getWorkflow = function(id) {
+		var deferred = $q.defer();
+    	$http.get('/api/workflow?id=' + id).success(function(data) {    		
+    		deferred.resolve(data);
+    	}).error(function(reason) {
+    		return deferred.reject(reason);        			
+    	});
+    	return deferred.promise;
+	};
+	
+}]);
+
+/**
+ * 
+ */
+app.service('widgetService', [ '$http', '$q', function($http,$q) {
+	
+	this.getWidgets = function() {
 		var deferred = $q.defer();
     	$http.get('/api/widgets').success(function(data) {    		
     		deferred.resolve(data);
-
     	}).error(function(reason) {
     		return deferred.reject(reason);        			
     	});
     	return deferred.promise;
  
 	};
-	var addWidget = function(widget) {
+	this.addWidget = function(widget) {
 		var deferred = $q.defer();
     	$http.post('/api/widgets', widget).success(function(data) {    		
     		deferred.resolve(data);
@@ -143,7 +169,7 @@ app.factory('widgetService', [ '$http', '$q', function($http,$q) {
     	return deferred.promise;
 	};
 	
-	var deleteWidget = function(widget) {
+	this.deleteWidget = function(widget) {
 		var deferred = $q.defer();
     	$http.delete('/api/widgets?id=' + widget.name).success(function(data) {    		
     		deferred.resolve(data);
@@ -153,17 +179,10 @@ app.factory('widgetService', [ '$http', '$q', function($http,$q) {
     	return deferred.promise;
 	};
 	
-	return {
-		addWidget : addWidget,
-		deleteWidget : deleteWidget,
-		getWidgets : getWidgets
-	};
-	
 }]);
 
 /**********************************************************************************
  * Simple factories for demo and experimentation
  * http://www.youtube.com/watch?v=i9MHigUZKEM
  **********************************************************************************/
-
 
