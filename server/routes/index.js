@@ -35,10 +35,11 @@ module.exports = exports = function(app, db, io) {
 	var sessionHandler = new SessionHandler(db); 
 
 	//===============================================================
-	app.get('/dashboard/hiringManager', contentHandler.hiringManager );
-	app.get('/dashboard/itManager', contentHandler.itManager );
-	app.get('/dashboard/hrManager', contentHandler.hrManager );
-	app.get('/dashboard/applicant', contentHandler.applicant );
+	
+	//app.get('/dashboard/hiringManager', contentHandler.hiringManager );
+	//app.get('/dashboard/itManager', contentHandler.itManager );
+	//app.get('/dashboard/hrManager', contentHandler.hrManager );
+	//app.get('/dashboard/applicant', contentHandler.applicant );
 	
 	//===============================================================
 	
@@ -46,10 +47,14 @@ module.exports = exports = function(app, db, io) {
 	
 	app.get('/api/widgets', contentHandler.getWidgets );
 	app.post('/api/widgets', contentHandler.postWidget );
-	app.delete( '/api/widgets', contentHandler.deleteWidget )
+	app.delete( '/api/widgets', contentHandler.deleteWidget );
 	
-	app.get('/api/workflow', contentHandler.getWorkflow ); 
+	app.get('/api/workflowModel', contentHandler.getWorkflowModel ); 
 	
+	app.get('/api/addWorkflow', contentHandler.addWorkflow ); 
+	app.get('/api/getWorkflow', contentHandler.getWorkflow ); 
+	app.get('/api/updateWorkflow', contentHandler.updateWorkflow ); 
+		
 	app.post('/signup', sessionHandler.handleSignup ); 
 	app.post('/login', sessionHandler.handleLoginRequest );
 	app.post('/logout', sessionHandler.handleLogout );	

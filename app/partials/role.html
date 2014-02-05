@@ -1,12 +1,30 @@
 <div class="mean-center-90">
-	<h3>{{role.name}}</h3>
-	<br />
+	<h3>{{currentRole}}</h3>
+	<!-- 
 	<div>
 		path = {{ currentPath }} role = {{ currentRole }} username = {{ currentUsername }}
 		<br />
 		{{ workflowModel._id }}
 	</div>
-
+	-->
+	<div>
+		<h4><strong>Incoming Requests</strong></h4>
+		<div class="gridStyle800x150" data-ng-grid="incomingGrid">
+			<button class="btn btn-primary" data-ng-click="incomingRequestDetails()">Details</button>
+			<button class="btn btn-primary" data-ng-click="createOutgoingRequest()">Create Outgoing Request</button>
+			<button class="btn btn-primary" data-ng-click="moreInfoIncomingRequest()">Need More Info</button>
+			<button class="btn btn-primary" data-ng-click="cancelIncomingRequest()">Cancel Request</button>
+		</div>
+	</div> 
+	<br />
+	<div>
+		<h4><strong>Outgoing Requests</strong></h4>
+		<div class="gridStyle800x150" data-ng-grid="outgoingGrid">
+			<button class="btn btn-primary" data-ng-click="outgoingRequestDetails()">Details</button>
+			<button class="btn btn-primary" data-ng-click="addToOutgoingRequest()">Add Info</button>
+			<button class="btn btn-primary" data-ng-click="cancelOutgoingRequest()">Cancel Request</button>
+		</div>
+	</div>
 	
 </div>
 

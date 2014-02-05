@@ -1,0 +1,7 @@
+{ "_id":"hrWorkflow", "role": [ 
+	{ "_id":"hiringManager", 	"name":"Hiring Manager" },
+	{ "_id":"itManager", 		"name":"IT Manager" },
+	{ "_id":"hrManager", 		"name":"HR Manager" },
+	{ "_id":"applicant", 		"name":"Applicant" } 
+	] 
+}

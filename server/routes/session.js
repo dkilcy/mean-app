@@ -39,7 +39,9 @@ function SessionHandler (db) {
             } 
             else {
             	var token = jwt.sign(user, global.configuration.auth.secret, { expiresInMinutes: 60*5 });
-            	res.json({ token: token });
+            	console.dir(user); 
+            	user.token = token;
+            	res.json(user);
             }
         });
     };

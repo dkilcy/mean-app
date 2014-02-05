@@ -15,34 +15,48 @@ function ContentHandler (db, io) {
 
     var workflow = new WorkflowDAO(db);
     var widgets = new WidgetsDAO(db); 
-    
-	this.hiringManager = function(req, res, next) {
-		
-	};
 	
-	this.itManager = function(req, res, next) {
-		
-	};
-	
-	this.hrManager = function(req, res, next) {
-		
-	};
-	
-	this.applicant = function(req, res, next) {
-		console.log("this.getWidgets: entry" ); 
-	};
-	
-	//===============================================================
-	
-	this.getWorkflow = function(req, res, next) {
+	this.getWorkflowModel = function(req, res, next) {
 
 		var id = req.query.id;    	
-    	console.log("getWorkflow: req.query.id=" + id );
+    	console.log("content.js: getWorkflowModel: req.query.id=" + id );
     	
-		workflow.getWorkflow(id, function(err, data) { 
+		workflow.getWorkflowModel(id, function(err, data) { 
+			if( err ) {
+				console.log('err', err ); 
+				// TODO
+			}
 			console.dir(data);
 			return res.json( data ); 
 		});
+	};
+	
+	//
+	
+	this.addWorkflow = function(req, res, next ) {
+		
+	};
+	
+	this.getWorkflow = function(req, res, next ) {
+		var role = req.query.role;
+		var username = req.query.username;
+		var id = req.query.id; 
+		var status = req.query.status;
+		
+		console.log("content.js: getWorkflow: role=" + role + " username=" + username + " id=" + id + " status=" + status ); 
+		
+		workflow.getWorkflow( role, username, id, status, function( err, data ) {
+			if( err ) {
+				console.log('err', err ); 
+				// TODO
+			}
+			//console.dir(data);
+			return res.json(data); 
+		});	
+	};
+	
+	this.updateWorkflow = function(req, res, next ) {
+		
 	};
 	
 	//===============================================================

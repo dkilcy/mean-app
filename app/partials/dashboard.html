@@ -1,10 +1,12 @@
 <div class="dashboard">
 
 	<h3>Dashboard</h3>
-	
+	<div>
+		credentials = {{ credentials }}
+	</div>
 	<div>
 		<ul>
-			<li data-ng-repeat="role in workflowModel.role"><a href="#/dashboard/{{ role._id }}">{{role.name}}</a></li>
+			<li data-ng-repeat="role in workflowModel.role"><a href="#/dashboard/{{ role._id }}">{{role._id}}</a></li>
 		</ul>
 	</div>
 

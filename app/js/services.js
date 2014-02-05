@@ -20,15 +20,15 @@ angular.module('meanApp.services', []).value('version', '0.1');
 app.service( "authService", ['$http','$q', '$window', function($http,$q,$window) {
 
 	var authenticated = false; 
-	var username = {};
+	var credentials = {};
 	
-	this.login = function(credentials) {    
+	this.login = function(user) {    
 		
     	var deferred = $q.defer();
-    	$http.post('/login', credentials).success(function(data) {	
+    	$http.post('/login', user).success(function(data) {	
     		deferred.resolve(data);
 			authenticated = true;
-			username = credentials.username;
+			credentials = data; 
 			$window.sessionStorage.token = data.token;
     	}).error(function(reason) {
     		return deferred.reject(reason);        			
@@ -50,11 +50,7 @@ app.service( "authService", ['$http','$q', '$window', function($http,$q,$window)
 	this.logout = function() {
 
     	authenticated = false;
-    	return {
-    		addWidget : addWidget,
-    		deleteWidget : deleteWidget,
-    		getWidgets : getWidgets
-    	};
+
 		var deferred = $q.defer();
     	$http.post('/logout').success(function(data) {    		
     		deferred.resolve(data);
@@ -65,11 +61,15 @@ app.service( "authService", ['$http','$q', '$window', function($http,$q,$window)
     };
     
     this.username = function() {
-    	return username;
+    	return credentials._id;
     };
     
     this.isAuthenticated = function() {
     	return authenticated; 
+    };
+    
+    this.credentials = function() {
+    	return credentials;
     };
 
 }]);
@@ -132,14 +132,24 @@ app.factory('workflowFactory', [ function() {
  */
 app.service('workflowService', [ '$http', '$q', function($http,$q) {
 	
-	this.getWorkflow = function(id) {
+	this.getWorkflowModel = function(id) {
 		var deferred = $q.defer();
-    	$http.get('/api/workflow?id=' + id).success(function(data) {    		
+    	$http.get('/api/workflowModel?id=' + id).success(function(data) {    		
     		deferred.resolve(data);
     	}).error(function(reason) {
     		return deferred.reject(reason);        			
     	});
     	return deferred.promise;
+	};
+	
+	this.getWorkflow = function( role, username, id, status ) {
+		var deferred = $q.defer();
+    	$http.get('/api/getWorkflow?role=' + role + '&username=' + username + "&id=" + id + "&status=" + status).success(function(data) {    		
+    		deferred.resolve(data);
+    	}).error(function(reason) {
+    		return deferred.reject(reason);        			
+    	});
+    	return deferred.promise;		
 	};
 	
 }]);

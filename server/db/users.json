@@ -1,16 +1,16 @@
 { "_id" : "dkilcy", "email" : "david@kilcyconsulting.com", "firstName" : "David", "lastName" : "Kilcy", "password" : "$2a$10$2qqZBV6cf8nfbv588rvN7OPSCWYNmvOrmcyzuRdzlnQPOrFPnExde", 
-	"roles" : [ 	{ 	"role" : "hiringManager" }, 	{ 	"role" : "itManager" }, 	{ 	"role" : "hrManager" }, 	{ 	"role" : "applicant" } ] }
+	"role" : [ 	{ 	"_id" : "hiringManager" }, 	{ 	"_id" : "itManager" }, 	{ 	"_id" : "hrManager" } ] }
 { "_id" : "hiring1", "email" : "hr@example.com", "firstName" : "Hiring", "lastName" : "Manager1", "password" : "$2a$10$N4tFQOnZOW4jMbHzSy78p.OkRJ7QiQ1UUUJnWekyrUMW4yphZAkIC", 
-	"roles" : [  {  "role" : "hiringManager" } ] }
+	"role" : [  {  "_id" : "hiringManager" } ] }
 { "_id" : "it1", "email" : "it1@example.com", "firstName" : "IT", "lastName" : "Manager1", "password" : "$2a$10$nKjb0PvMcB5vB3uJz.NxYuXJbf7njBNlONU5HkiSU6.vBFwx0qJaS", 
-	"roles" : [  {  "role" : "itManager" } ] }
+	"role" : [  {  "_id" : "itManager" } ] }
 { "_id" : "hr1", "email" : "hr1@example.com", "firstName" : "HR", "lastName" : "Manager1", "password" : "$2a$10$sY0o7Q5RYoVKT.71A5YVDOOe3ke/wkGLeWD/9eP8ijFJHVKwVsMuK", 
-	"roles" : [  {  "role" : "hrManager" } ] }
+	"role" : [  {  "_id" : "hrManager" } ] }
 { "_id" : "app1", "email" : "app1@example.com", "firstName" : "App", "lastName" : "Applicant1", "password" : "$2a$10$t12LYl3xXq.lWtRdXVa/suQkrMAA9xz0ZJZqt1iwdyNxzPraC/eDW", 
-	"roles" : [  {  "role" : "applicant" } ] }
+	"role" : [  {  "_id" : "applicant" } ] }
 
 { "_id" : "avandelay", "password" : "$2a$10$HKgX4i49/c4.mko3gapoCOLi4PjJ8/LC0hNFP25PwOiiUmw6.JtK2", "email" : "avandelay@example.com", "firstName" : "Art", "lastName" : "Vandelay" ,
-	"roles" : [ { role:"applicant" } ] }
+	"role" : [ { "_id":"applicant" } ] }
 { "_id" : "mlabor", "password" : "$2a$10$w3hRrM/x2sUW9zSTCaEYsOQl.CdsAaviI3V9fFix8kljKoq3fD2Q2", "email" : "mlabor@example.com", "firstName" : "Manuel", "lastName" : "Labor",
-	"roles" : [ { role:"applicant" } ] }
+	"role" : [ { "_id":"applicant" } ] }
 
