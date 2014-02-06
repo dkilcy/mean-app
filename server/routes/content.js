@@ -57,6 +57,24 @@ function ContentHandler (db, io) {
 	
 	this.updateWorkflow = function(req, res, next ) {
 		
+		var request = req.body;
+		
+		console.dir(request);
+		
+		var id = request._id;
+		
+		console.log("content.js: updateWorkflow: id=" + id );
+		console.dir(request);
+		
+		workflow.updateWorkflow( request, function( err, data ) {
+			if( err ) {
+				console.log('err', err ); 
+				// TODO
+			}
+			//console.dir(data);
+			return res.json(data); 
+		});	
+		
 	};
 	
 	//===============================================================

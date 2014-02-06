@@ -51,9 +51,9 @@ module.exports = exports = function(app, db, io) {
 	
 	app.get('/api/workflowModel', contentHandler.getWorkflowModel ); 
 	
-	app.get('/api/addWorkflow', contentHandler.addWorkflow ); 
 	app.get('/api/getWorkflow', contentHandler.getWorkflow ); 
-	app.get('/api/updateWorkflow', contentHandler.updateWorkflow ); 
+	app.post('/api/addWorkflow', contentHandler.addWorkflow ); 	
+	app.post('/api/updateWorkflow', contentHandler.updateWorkflow ); 
 		
 	app.post('/signup', sessionHandler.handleSignup ); 
 	app.post('/login', sessionHandler.handleLoginRequest );

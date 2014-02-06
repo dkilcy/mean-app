@@ -110,15 +110,20 @@ app.controller('roleController', ['$scope', '$location', 'workflowService', 'aut
     $scope.createOutgoingRequest = function() {    	
     	if( $scope.incomingSelection.length > 0 ) {
     		
-    		
-    		
-    		
-	    	$scope.incomingSelection[0].updateTime = new Date();
-	    	$scope.incomingSelection[0].status = 'pending';	    	
-	    	$scope.outgoingData.push($scope.incomingSelection[0]);    	
+    		var workflow = $scope.incomingSelection[0];    		
+	    	workflow.status = 'pending';	    	
 	    	
-	    	$scope.incomingData = _.without( $scope.incomingData, $scope.incomingSelection[0] );
-	    	$scope.incomingSelection.length = 0; 
+	    	//console.dir(workflow); 
+	    	workflowService.updateWorkflow( workflow ).then( function(result) { 	
+				 $scope.outgoingData.push(workflow);  
+				 
+			     $scope.incomingData = _.without( $scope.incomingData, workflow );
+			     $scope.incomingSelection.length = 0; 
+			    	
+			 }, function(reason) { // promise rejected
+				 console.log('error', reason);
+				 $scope.message = reason;
+			 });	    	    
     	}
     };
     

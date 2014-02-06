@@ -4,6 +4,8 @@
 }
 **/
 
+var ObjectId = require('mongodb').ObjectID;
+
 function WorkflowDAO(db) {
 	
 	/* If this constructor is called without the "new" operator, "this" points
@@ -64,14 +66,17 @@ function WorkflowDAO(db) {
     	
     };
     
-    this.updateWorkflow = function( workflow, callback ) {
-    	console.log("workflow.js: updateIncomingWorkflow: " + workflow._id );
-    	console.dir( workflow ); 
+    this.updateWorkflow = function( request, callback ) {
     	
-    	var role = workflow.role;
-    	var username = workflow.username;
+    	var id = request._id; 
+    	var status = request.status; 
     	
-    	//workflow.update( { "role":role, "username":username } );
+    	console.log("workflow.js: updateWorkflow: id=" + request._id + " status=" + status );
+    	
+    	workflow.update( { "_id": new ObjectId(id) }, { "$set": { "status":status, "updateTime": new Date() }},  function (err, numModified) {            
+            if (err) return callback(err, null);
+            callback(err, numModified);
+    	});
     	
     };
     

@@ -152,6 +152,16 @@ app.service('workflowService', [ '$http', '$q', function($http,$q) {
     	return deferred.promise;		
 	};
 	
+	this.updateWorkflow = function( workflow ) {
+		var deferred = $q.defer();
+    	$http.post('/api/updateWorkflow', workflow).success(function(data) {    		
+    		deferred.resolve(data);
+    	}).error(function(reason) {
+    		return deferred.reject(reason);        			
+    	});
+    	return deferred.promise;
+	};
+	
 }]);
 
 /**
