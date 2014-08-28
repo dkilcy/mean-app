@@ -44,7 +44,7 @@ app.config( ['$provide', '$routeProvider', function($provide, $routeProvider) {
 var AUTH_SERVICE = "authService";  // can only pass constants into app.run()
 var WORKFLOW_FACTORY = "workflowFactory"; 
 
-app.run( ['$rootScope', '$location', '$routeProvider', AUTH_SERVICE, WORKFLOW_FACTORY, function($rootScope, $location, $routeProvider, AUTH_SERVICE, WORKFLOW_FACTORY) {
+app.run( ['$rootScope', '$location', '$routeProvider', AUTH_SERVICE,function($rootScope, $location, $routeProvider, AUTH_SERVICE) {
 
     $rootScope.authService = AUTH_SERVICE;
 
@@ -66,12 +66,7 @@ app.run( ['$rootScope', '$location', '$routeProvider', AUTH_SERVICE, WORKFLOW_FA
     });    
     
     var init = function() {
-    	var workflowModel = WORKFLOW_FACTORY.getWorkflowModel();
 
-    	for(var i = 0; i < workflowModel.role.length; i++) {
-    		console.log('info', "adding rule:" + workflowModel.role[i]._id + " " + workflowModel.role[i].name );
-    		$routeProvider.when("/dashboard/" + workflowModel.role[i]._id, { templateUrl: 'partials/role.html', controller:'roleController' });
-    	}
     };
     
     init();

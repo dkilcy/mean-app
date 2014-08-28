@@ -1,6 +1,0 @@
-{ "username":"dkilcy", "role":"hiringManager", "status":"open", "creationTime":"ISODate(2014-01-31T15:52:19.252Z)", "updateTime":"ISODate(2014-01-31T15:52:19.252Z)",
-	"requestText":"New Request", "from": { "role":"applicant", "username":"avandelay" }, "to": { "role":"hrManager", "username":"dkilcy" } 
-}
-{ "username":"dkilcy", "role":"hiringManager", "status":"pending", "creationTime":"ISODate(2014-01-31T15:52:19.252Z)", "updateTime":"ISODate(2014-01-31T15:52:19.252Z)",
-	"requestText":"New Request", "from": { "role":"applicant", "username":"mlabor" }, "to": { "role":"hrManager", "username":"dkilcy" } 
-}

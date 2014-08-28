@@ -51,9 +51,8 @@ app.controller('authController', ['$scope', '$window', '$location', 'authService
 	
 }]);
 
-app.controller('dashboardController', ['$scope', 'workflowService', 'authService', function($scope, workflowService, authService) {
+app.controller('dashboardController', ['$scope','authService', function($scope, authService) {
 	
-	$scope.workflowModel = {};
 	$scope.credentials = {};
 	
 	init(); 
@@ -61,122 +60,6 @@ app.controller('dashboardController', ['$scope', 'workflowService', 'authService
 	function init() {
 
 		$scope.credentials = authService.credentials(); 
-		
-		 workflowService.getWorkflowModel( 'hrWorkflow' ).then( function(data) {	
-			$scope.workflowModel = data;
-			//$scope.workflowModel.role = _.intersection( $scope.workflowModel.role, $scope.credentials.role );
-			$scope.workflowModel.role = _.pick($scope.workflowModel.role,_.intersection(_.keys($scope.workflowModel.role),_.keys($scope.credentials.role)));
-						
-		}, function(reason) { // promise rejected
-			console.log('error', reason);
-			$scope.message = reason;
-		});	
-		
-	};
-	
-}]);
-
-
-app.controller('roleController', ['$scope', '$location', 'workflowService', 'authService', function($scope, $location, workflowService, authService) {
-	
-	var currentPath = $location.path();		
-	var currentRole = currentPath.split("/")[2];
-	var currentUsername = authService.username();
-	
-	$scope.currentPath = currentPath;
-	$scope.currentRole = currentRole; 
-	$scope.currentUsername = currentUsername;
-		
-    var columnDefs = [	{field:'status', 		displayName:'Status', 			width:100,	cellTemplate: '/partials/cellTemplate.html' },
-                      	{field:'creationTime', 	displayName:'Creation Time', 	width:200},
-                      	{field:'updateTime', 	displayName:'Last Update', 		width:200},              
-					    {field:'requestText', 	displayName:'Request', 			width:400}, 
-					    {field:'from', 			displayName:'From', 			width:100},
-					    {field:'to', 			displayName:'To',				width:100}
-				    ];
-    
-	$scope.incomingData = [];
-    $scope.incomingSelection = [];
-    
-    $scope.incomingGrid = { 
-    		data: 'incomingData',
-    		columnDefs: columnDefs,
-    		selectedItems: $scope.incomingSelection,
-    	    multiSelect: false,    	   
-    	    keepLastSelected : false,
-    	    enableColumnResize : true
-    };
-
-    $scope.createOutgoingRequest = function() {    	
-    	if( $scope.incomingSelection.length > 0 ) {
-    		
-    		var workflow = $scope.incomingSelection[0];    		
-	    	workflow.status = 'pending';	    	
-	    	
-	    	//console.dir(workflow); 
-	    	workflowService.updateWorkflow( workflow ).then( function(result) { 	
-				 $scope.outgoingData.push(workflow);  
-				 
-			     $scope.incomingData = _.without( $scope.incomingData, workflow );
-			     $scope.incomingSelection.length = 0; 
-			    	
-			 }, function(reason) { // promise rejected
-				 console.log('error', reason);
-				 $scope.message = reason;
-			 });	    	    
-    	}
-    };
-    
-    $scope.cancelIncomingRequest = function() {
-    	if( $scope.incomingSelection.length > 0 ) {
-    		$scope.incomingData = _.without( $scope.incomingData, $scope.incomingSelection[0] ); 
-    		$scope.incomingSelection.length = 0;
-    	}
-    };
-
-    //
-    
-    $scope.outgoingData = [];    
-    $scope.outgoingSelection = [];
-    
-    $scope.outgoingGrid = { 
-    		data: 'outgoingData',
-    		columnDefs: columnDefs,
-    		selectedItems: $scope.outgoingSelection,
-    	    multiSelect: false,
-    	    keepLastSelected : false,
-    	    enableColumnResize : true
-    };
-    
-    $scope.cancelOutgoingRequest = function() {
-    	if( $scope.outgoingSelection.length > 0 ) {
-	    	$scope.outgoingSelection[0].updateTime = new Date();
-	    	$scope.outgoingSelection[0].status = "recalled";
-	    	$scope.outgoingData = _.without( $scope.outgoingData, $scope.outgoingSelection[0] );
-	    	$scope.incomingData.push( $scope.outgoingSelection[0] );    	
-	    	$scope.outgoingSelection.length = 0; 
-    	}
-    };
-    
-	init(); 
-		
-	function init() {
-		
-		console.log("roleController: init()");
-
-		workflowService.getWorkflow( currentRole, currentUsername, null, "open" ).then( function(data) { 
-			 $scope.incomingData = data;
-		 }, function(reason) { // promise rejected
-			 console.log('error', reason);
-			 $scope.message = reason;
-		 });
-		 
-		workflowService.getWorkflow( currentRole, currentUsername, null, "pending" ).then( function(data) { 
-			 $scope.outgoingData = data;
-		 }, function(reason) { // promise rejected
-			 console.log('error', reason);
-			 $scope.message = reason;
-		 });
 		
 	};
 	
@@ -286,6 +169,85 @@ app.controller('widgetController', ['$scope', 'widgetService', 'restService', fu
     	    keepLastSelected : false,
     	    enableColumnResize : true
     };
+
+    app.controller('roleController', ['$scope', '$location', 'authService', function($scope, $location, authService) {
+    	
+    	var currentPath = $location.path();		
+    	var currentRole = currentPath.split("/")[2];
+    	var currentUsername = authService.username();
+    	
+    	$scope.currentPath = currentPath;
+    	$scope.currentRole = currentRole; 
+    	$scope.currentUsername = currentUsername;
+    		
+        var columnDefs = [	{field:'status', 		displayName:'Status', 			width:100,	cellTemplate: '/partials/cellTemplate.html' },
+                          	{field:'creationTime', 	displayName:'Creation Time', 	width:200},
+                          	{field:'updateTime', 	displayName:'Last Update', 		width:200},              
+    					    {field:'requestText', 	displayName:'Request', 			width:400}, 
+    					    {field:'from', 			displayName:'From', 			width:100},
+    					    {field:'to', 			displayName:'To',				width:100}
+    				    ];
+        
+    	$scope.incomingData = [];
+        $scope.incomingSelection = [];
+        
+        $scope.incomingGrid = { 
+        		data: 'incomingData',
+        		columnDefs: columnDefs,
+        		selectedItems: $scope.incomingSelection,
+        	    multiSelect: false,    	   
+        	    keepLastSelected : false,
+        	    enableColumnResize : true
+        };
+
+        $scope.createOutgoingRequest = function() {    	
+        	if( $scope.incomingSelection.length > 0 ) {
+        		
+        		
+        	}
+        };
+        
+        $scope.cancelIncomingRequest = function() {
+        	if( $scope.incomingSelection.length > 0 ) {
+        		$scope.incomingData = _.without( $scope.incomingData, $scope.incomingSelection[0] ); 
+        		$scope.incomingSelection.length = 0;
+        	}
+        };
+
+        //
+        
+        $scope.outgoingData = [];    
+        $scope.outgoingSelection = [];
+        
+        $scope.outgoingGrid = { 
+        		data: 'outgoingData',
+        		columnDefs: columnDefs,
+        		selectedItems: $scope.outgoingSelection,
+        	    multiSelect: false,
+        	    keepLastSelected : false,
+        	    enableColumnResize : true
+        };
+        
+        $scope.cancelOutgoingRequest = function() {
+        	if( $scope.outgoingSelection.length > 0 ) {
+    	    	$scope.outgoingSelection[0].updateTime = new Date();
+    	    	$scope.outgoingSelection[0].status = "recalled";
+    	    	$scope.outgoingData = _.without( $scope.outgoingData, $scope.outgoingSelection[0] );
+    	    	$scope.incomingData.push( $scope.outgoingSelection[0] );    	
+    	    	$scope.outgoingSelection.length = 0; 
+        	}
+        };
+        
+    	init(); 
+    		
+    	function init() {
+    		
+    		console.log("roleController: init()");
+
+    			
+    	};
+    	
+    }]);
 
     $scope.createOutgoingRequest = function() {    	
     	if( $scope.incomingSelection.length > 0 ) {
